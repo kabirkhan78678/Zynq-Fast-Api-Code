@@ -237,7 +237,6 @@ def fetch_candidates(conn, classification: dict, debug: bool = False) -> list:
         SELECT
             t.entity_id,
             t.entity_name        AS name,
-            t.swedish_name       AS swedish_name,
             'treatment'          AS entity_type,
             tr.description_en    AS description,
             tr.concern_en        AS concern,
@@ -264,7 +263,6 @@ def fetch_candidates(conn, classification: dict, debug: bool = False) -> list:
         SELECT
             t.entity_id,
             t.entity_name        AS name,
-            t.swedish_name       AS swedish_name,
             'device'             AS entity_type,
             NULL                 AS description,
             NULL                 AS concern,
@@ -338,7 +336,6 @@ def lexical_fallback_query(conn, raw_query: str) -> list:
         SELECT
             t.entity_id,
             t.entity_name        AS name,
-            t.swedish_name       AS swedish_name,
             tr.description_en    AS description,
             tr.concern_en        AS concern,
             t.modality,
@@ -366,7 +363,6 @@ def lexical_fallback_query(conn, raw_query: str) -> list:
         SELECT
             t.entity_id,
             t.entity_name        AS name,
-            t.swedish_name       AS swedish_name,
             NULL                 AS description,
             NULL                 AS concern,
             t.modality,
@@ -495,7 +491,6 @@ def format_output(raw_query: str, classification: dict, grouped: dict) -> dict:
         return {
             "id":           item.get("entity_id"),
             "name":         item.get("name"),
-            "swedish_name": item.get("swedish_name"),
             "type":         item.get("entity_type"),
             "modality":     item.get("modality"),
             "family":       item.get("family"),
@@ -519,6 +514,86 @@ def format_output(raw_query: str, classification: dict, grouped: dict) -> dict:
             for group, items in grouped.items()
         },
     }
+    return output
+
+
+def translate_output_fields(client, output: dict, language: str) -> dict:
+    """Translate selected result fields for API output."""
+    if language == "en":
+        return output
+    if language != "sv":
+        raise ValueError("Unsupported language. Use 'en' or 'sv'.")
+
+    items_to_translate = []
+    translatable_groups = {"treatments", "devices"}
+    for group_name, items in output.get("results", {}).items():
+        if group_name not in translatable_groups:
+            continue
+        for index, item in enumerate(items):
+            payload = {
+                "group": group_name,
+                "index": index,
+                "name": item.get("name"),
+                "concern": item.get("concern"),
+                "description": item.get("description"),
+            }
+            if payload["name"] or payload["concern"] or payload["description"]:
+                items_to_translate.append(payload)
+
+    if not items_to_translate:
+        return output
+
+    prompt = f"""Translate only the name, concern, and description fields from English to Swedish for treatments and devices.
+Return ONLY a JSON array with the same length and order.
+Keep null values as null.
+Do not translate IDs, group names, modality, family, type, or score.
+Keep brand names and device names unchanged unless there is a natural Swedish treatment/device name.
+
+Input:
+{json.dumps(items_to_translate, ensure_ascii=False)}
+
+Required output item shape:
+{{
+  "name": "translated name or null",
+  "concern": "translated concern or null",
+  "description": "translated description or null"
+}}
+"""
+
+    try:
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=2000,
+            temperature=0,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        translated_text = response.content[0].text.strip()
+        if translated_text.startswith("```"):
+            translated_text = translated_text.strip("`")
+            translated_text = translated_text.split("\n", 1)[-1].rsplit("\n", 1)[0]
+        if not translated_text.startswith("["):
+            start = translated_text.find("[")
+            end = translated_text.rfind("]")
+            if start != -1 and end != -1:
+                translated_text = translated_text[start:end + 1]
+        translations = json.loads(translated_text)
+    except Exception as e:
+        log.warning(f"Translation failed; returning English fields: {e}")
+        return output
+
+    if not isinstance(translations, list) or len(translations) != len(items_to_translate):
+        log.warning("Translation response shape mismatch; returning English fields")
+        return output
+
+    for source, translated in zip(items_to_translate, translations):
+        if not isinstance(translated, dict):
+            continue
+        item = output["results"][source["group"]][source["index"]]
+        for field in ("name", "concern", "description"):
+            value = translated.get(field)
+            if value:
+                item[field] = value
+
     return output
 
 
@@ -634,6 +709,7 @@ def search_main(
     query: str = None,
     debug: bool = False,
     limit: int = 10,
+    language: str = "en",
 ):
     """
     Main entry point for the search engine.
@@ -643,6 +719,7 @@ def search_main(
         query: Search query string. If None, runs in interactive console mode.
         debug: Log all candidate scores for debugging.
         limit: Max results per category in the final output (default: 5).
+        language: Response language for name, concern, and description. Use 'en' or 'sv'.
 
     Returns:
         dict with query, interpreted_as, and results (treatments + devices).
@@ -667,6 +744,7 @@ def search_main(
             # Single query mode — used by FastAPI
             result = search(client, conn, query, debug=debug, limit=limit)
             result = sort_final_output(result)
+            result = translate_output_fields(client, result, language)
             print("\n" + "=" * 60)
             print("FINAL OUTPUT:")
             print(json.dumps(result, indent=2, ensure_ascii=False))

@@ -2575,3 +2575,938 @@ DEVICES COMPLETE → Success: 0 | Skipped: 399 | Failed: 0
 2026-06-26 18:33:57,164 [INFO]     • Accent Prime | modality=energy-based | family=RF microneedling
 2026-06-26 18:33:57,164 [INFO]     • Genius RF | modality=RF | family=RF microneedling
 2026-06-26 18:33:57,164 [INFO]   [sort_final_output] Final group order: ['treatments', 'devices']
+2026-06-30 12:08:01,928 [INFO] Connected to MySQL: localhost/zynq_code_db
+2026-06-30 12:08:01,929 [INFO] 
+============================================================
+2026-06-30 12:08:01,929 [INFO] SEARCH QUERY: 'acne'
+2026-06-30 12:08:01,930 [INFO] Timestamp: 2026-06-30T12:08:01.930136
+2026-06-30 12:08:01,930 [INFO] ============================================================
+2026-06-30 12:08:01,930 [INFO] ──────────────────────────────────────────────────
+2026-06-30 12:08:01,930 [INFO] STEP 1 — CLASSIFY QUERY: 'acne'
+2026-06-30 12:08:01,939 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x1109d2150>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-edd27884-819b-4934-a81a-d3435d593028', 'content': None, 'json_data': {'max_tokens': 400, 'messages': [{'role': 'user', 'content': 'You are a search query classifier for a medical aesthetics platform selling\ntreatments and devices. Users search in English or Swedish with 1-4 word queries.\n\nUser searched: "acne"\n\nAnalyze and return ONLY this JSON. No explanation. No markdown.\n\n{\n  "normalized": "core concept in English, single word or short phrase",\n  "intent": "one of: treatment | device | concern | clinic | location | exclusion",\n  "concepts": ["2-5 related English concept words to search the DB for"],\n  "exclusions": ["terms to EXCLUDE from results — empty array if none"],\n  "is_negation": true or false,\n  "confidence": "high | medium | low"\n}\n\nClassification rules:\n- \'non-laser\', \'laser alternative\', \'without laser\', \'no botox\' → intent: exclusion, is_negation: true\n- Device brand names (Morpheus8, Fraxel, HydraFacial) → intent: device\n- Treatment names (Botox, filler, microneedling) → intent: treatment\n- Skin concerns (pigmentation, acne, wrinkles, dark spots) → intent: concern\n- City names → intent: location\n- Clinic names → intent: clinic\n\nExamples:\n- "non-laser"        → intent: exclusion, exclusions: ["laser"], concepts: [], is_negation: true\n- "pigment spots"    → intent: concern, concepts: ["pigmentation","melasma","dark spots","sun damage"]\n- "morpheus8"        → intent: device, concepts: ["morpheus8","RF microneedling","radiofrequency"]\n- "botox"            → intent: treatment, concepts: ["botox","neurotoxin","wrinkle injection","botulinum"]\n- "laser behandling" → intent: treatment, concepts: ["laser treatment","laser resurfacing","laser therapy"]\n- "håravfall"        → intent: concern, concepts: ["hair loss","hair regrowth","alopecia"]\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0.1}}
+2026-06-30 12:08:02,004 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 12:08:02,005 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=[(65535, 8, True), (6, 257, 60), (6, 258, 5)]
+2026-06-30 12:08:02,055 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x111b37490>
+2026-06-30 12:08:02,058 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x11197aba0> server_hostname='api.anthropic.com' timeout=5.0
+2026-06-30 12:08:02,098 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x1119bec10>
+2026-06-30 12:08:02,099 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 12:08:02,100 [DEBUG] send_request_headers.complete
+2026-06-30 12:08:02,100 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 12:08:02,100 [DEBUG] send_request_body.complete
+2026-06-30 12:08:02,100 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 12:08:07,314 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 06:38:07 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T06:38:06Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T06:38:07Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T06:38:02Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T06:38:06Z'), (b'request-id', b'req_011CcYz1SNTDkh9LG5sHPWFS'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-754aab1860ac129a808238ea4ea6582f-17958676dc9c781a-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'cf-cache-status', b'DYNAMIC'), (b'set-cookie', b'_cfuvid=F1aRLeV9BaXlYnvvMSnkqkEnpmfqoZeQHERm.Wly6Vg-1782801482.1758492-1.0.1.1-Kche8gQNQ0d9.c7dpWgEisgb.ZKBaBKMRbl76yWAlzc; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'X-Robots-Tag', b'none'), (b'CF-RAY', b'a13b2a6f99e57d86-MAA')])
+2026-06-30 12:08:07,316 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 12:08:07,316 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 12:08:07,317 [DEBUG] receive_response_body.complete
+2026-06-30 12:08:07,317 [DEBUG] response_closed.started
+2026-06-30 12:08:07,317 [DEBUG] response_closed.complete
+2026-06-30 12:08:07,318 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 06:38:07 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T06:38:06Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T06:38:07Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T06:38:02Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T06:38:06Z', 'request-id': 'req_011CcYz1SNTDkh9LG5sHPWFS', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-754aab1860ac129a808238ea4ea6582f-17958676dc9c781a-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'cf-cache-status': 'DYNAMIC', 'set-cookie': '_cfuvid=F1aRLeV9BaXlYnvvMSnkqkEnpmfqoZeQHERm.Wly6Vg-1782801482.1758492-1.0.1.1-Kche8gQNQ0d9.c7dpWgEisgb.ZKBaBKMRbl76yWAlzc; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'x-robots-tag': 'none', 'cf-ray': 'a13b2a6f99e57d86-MAA'})
+2026-06-30 12:08:07,318 [DEBUG] request_id: req_011CcYz1SNTDkh9LG5sHPWFS
+2026-06-30 12:08:07,360 [INFO]   normalized  : acne
+2026-06-30 12:08:07,361 [INFO]   intent      : concern
+2026-06-30 12:08:07,361 [INFO]   concepts    : ['acne', 'acne treatment', 'breakouts', 'pimples', 'blemishes']
+2026-06-30 12:08:07,361 [INFO]   exclusions  : []
+2026-06-30 12:08:07,361 [INFO]   is_negation : False
+2026-06-30 12:08:07,361 [INFO]   confidence  : high
+2026-06-30 12:08:07,361 [INFO] ──────────────────────────────────────────────────
+2026-06-30 12:08:07,361 [INFO] STEP 2 — FETCH CANDIDATES FROM DB
+2026-06-30 12:08:07,361 [INFO]   Search terms  : ['acne', 'acne treatment', 'breakouts', 'pimples', 'blemishes']
+2026-06-30 12:08:07,361 [INFO]   Exclusions    : []
+2026-06-30 12:08:07,361 [INFO]   Intent        : concern
+2026-06-30 12:08:07,362 [DEBUG]   Executing UNION query with 5 search term(s) and 0 exclusion(s)
+2026-06-30 12:08:07,425 [INFO]   DB returned 30 raw candidates before score filtering
+2026-06-30 12:08:07,425 [INFO] ──────────────────────────────────────────────────
+2026-06-30 12:08:07,425 [INFO] STEP 3 — FILTER & SCORE CANDIDATES
+2026-06-30 12:08:07,425 [INFO]   Total before filter : 30
+2026-06-30 12:08:07,425 [INFO]   After zero-score filter : 30
+2026-06-30 12:08:07,425 [INFO]   [01] score=  17 | treatment  | IPL Acne Therapy
+2026-06-30 12:08:07,425 [INFO]   [02] score=  17 | treatment  | LED Acne Therapy
+2026-06-30 12:08:07,425 [INFO]   [03] score=  17 | device     | Acne 400–600
+2026-06-30 12:08:07,426 [INFO]   [04] score=  17 | device     | Celluma Pro (acne mode)
+2026-06-30 12:08:07,426 [INFO]   [05] score=  17 | device     | Celluma Acne
+2026-06-30 12:08:07,426 [INFO]   [06] score=  17 | device     | Harmony XL PRO (acne protocols)
+2026-06-30 12:08:07,426 [INFO]   [07] score=  17 | device     | LightStim Acne
+2026-06-30 12:08:07,426 [INFO]   [08] score=  17 | device     | LightStim for Acne
+2026-06-30 12:08:07,426 [INFO]   [09] score=  17 | device     | Lumenis M22 / Stellar M22 (acne filters)
+2026-06-30 12:08:07,426 [INFO]   [10] score=  17 | device     | Nordlys IPL (acne filters)
+2026-06-30 12:08:07,426 [INFO]   ... and 20 more (run with --debug to see all)
+2026-06-30 12:08:07,426 [INFO] ──────────────────────────────────────────────────
+2026-06-30 12:08:07,426 [INFO] STEP 4 — GROUP RESULTS by intent: 'concern'
+2026-06-30 12:08:07,426 [INFO]   Treatments in pool : 8
+2026-06-30 12:08:07,426 [INFO]   Devices in pool    : 22
+2026-06-30 12:08:07,426 [INFO]   Group 'treatments' — 5 result(s):
+2026-06-30 12:08:07,426 [INFO]     • [17] IPL Acne Therapy (light-based)
+2026-06-30 12:08:07,426 [INFO]     • [17] LED Acne Therapy (light-based)
+2026-06-30 12:08:07,427 [INFO]     • [7] LED Inflammation Reduction (light-based)
+2026-06-30 12:08:07,427 [INFO]     • [7] LED Blue Light (light-based)
+2026-06-30 12:08:07,427 [INFO]     • [7] Deep Cleansing Facial (mechanical)
+2026-06-30 12:08:07,427 [INFO]   Group 'devices' — 5 result(s):
+2026-06-30 12:08:07,427 [INFO]     • [17] Acne 400–600 (light-based)
+2026-06-30 12:08:07,427 [INFO]     • [17] Celluma Pro (acne mode) (light-based)
+2026-06-30 12:08:07,427 [INFO]     • [17] Celluma Acne (light-based)
+2026-06-30 12:08:07,427 [INFO]     • [17] Harmony XL PRO (acne protocols) (light-based)
+2026-06-30 12:08:07,427 [INFO]     • [17] LightStim Acne (light-based)
+2026-06-30 12:08:07,427 [INFO] ──────────────────────────────────────────────────
+2026-06-30 12:08:07,427 [INFO] SEARCH COMPLETE
+2026-06-30 12:08:07,427 [INFO] Total results returned: 10
+2026-06-30 12:08:07,427 [INFO]   [sort_final_output] treatments (5 items):
+2026-06-30 12:08:07,427 [INFO]     • [17] IPL Acne Therapy
+2026-06-30 12:08:07,428 [INFO]     • [17] LED Acne Therapy
+2026-06-30 12:08:07,428 [INFO]     • [7] LED Inflammation Reduction
+2026-06-30 12:08:07,428 [INFO]     • [7] LED Blue Light
+2026-06-30 12:08:07,428 [INFO]     • [7] Deep Cleansing Facial
+2026-06-30 12:08:07,428 [INFO]   [sort_final_output] devices (5 items) sorted by modality/family:
+2026-06-30 12:08:07,428 [INFO]     • Harmony XL PRO (acne protocols) | modality=light-based | family=IPL
+2026-06-30 12:08:07,428 [INFO]     • Celluma Pro (acne mode) | modality=light-based | family=LED
+2026-06-30 12:08:07,428 [INFO]     • Celluma Acne | modality=light-based | family=LED
+2026-06-30 12:08:07,428 [INFO]     • LightStim Acne | modality=light-based | family=LED light therapy
+2026-06-30 12:08:07,428 [INFO]     • Acne 400–600 | modality=light-based | family=LED/light therapy
+2026-06-30 12:08:07,428 [INFO]   [sort_final_output] Final group order: ['treatments', 'devices']
+2026-06-30 15:46:42,756 [INFO] Connected to MySQL: localhost/zynq_code_db
+2026-06-30 15:46:42,756 [INFO] 
+============================================================
+2026-06-30 15:46:42,756 [INFO] SEARCH QUERY: 'pimple'
+2026-06-30 15:46:42,756 [INFO] Timestamp: 2026-06-30T15:46:42.756782
+2026-06-30 15:46:42,756 [INFO] ============================================================
+2026-06-30 15:46:42,756 [INFO] ──────────────────────────────────────────────────
+2026-06-30 15:46:42,757 [INFO] STEP 1 — CLASSIFY QUERY: 'pimple'
+2026-06-30 15:46:42,761 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x103f09e90>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-85ad5941-fbe5-4a46-9a7c-ef10c9831fb2', 'content': None, 'json_data': {'max_tokens': 400, 'messages': [{'role': 'user', 'content': 'You are a search query classifier for a medical aesthetics platform selling\ntreatments and devices. Users search in English or Swedish with 1-4 word queries.\n\nUser searched: "pimple"\n\nAnalyze and return ONLY this JSON. No explanation. No markdown.\n\n{\n  "normalized": "core concept in English, single word or short phrase",\n  "intent": "one of: treatment | device | concern | clinic | location | exclusion",\n  "concepts": ["2-5 related English concept words to search the DB for"],\n  "exclusions": ["terms to EXCLUDE from results — empty array if none"],\n  "is_negation": true or false,\n  "confidence": "high | medium | low"\n}\n\nClassification rules:\n- \'non-laser\', \'laser alternative\', \'without laser\', \'no botox\' → intent: exclusion, is_negation: true\n- Device brand names (Morpheus8, Fraxel, HydraFacial) → intent: device\n- Treatment names (Botox, filler, microneedling) → intent: treatment\n- Skin concerns (pigmentation, acne, wrinkles, dark spots) → intent: concern\n- City names → intent: location\n- Clinic names → intent: clinic\n\nExamples:\n- "non-laser"        → intent: exclusion, exclusions: ["laser"], concepts: [], is_negation: true\n- "pigment spots"    → intent: concern, concepts: ["pigmentation","melasma","dark spots","sun damage"]\n- "morpheus8"        → intent: device, concepts: ["morpheus8","RF microneedling","radiofrequency"]\n- "botox"            → intent: treatment, concepts: ["botox","neurotoxin","wrinkle injection","botulinum"]\n- "laser behandling" → intent: treatment, concepts: ["laser treatment","laser resurfacing","laser therapy"]\n- "håravfall"        → intent: concern, concepts: ["hair loss","hair regrowth","alopecia"]\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0.1}}
+2026-06-30 15:46:42,812 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 15:46:42,813 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=[(65535, 8, True), (6, 257, 60), (6, 258, 5)]
+2026-06-30 15:46:42,885 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x105055ed0>
+2026-06-30 15:46:42,885 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x105014cb0> server_hostname='api.anthropic.com' timeout=5.0
+2026-06-30 15:46:42,946 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x104ec4f10>
+2026-06-30 15:46:42,947 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 15:46:42,947 [DEBUG] send_request_headers.complete
+2026-06-30 15:46:42,947 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 15:46:42,948 [DEBUG] send_request_body.complete
+2026-06-30 15:46:42,948 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 15:46:45,372 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:16:45 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:16:44Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:16:45Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:16:43Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:16:44Z'), (b'request-id', b'req_011CcZGgdth1Muy1mbuT6WWm'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-9bb7d472e2666fe8b50c071d833d5191-e466ae58001eb67c-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'cf-cache-status', b'DYNAMIC'), (b'set-cookie', b'_cfuvid=6VS5NZBERprdOI.MEd70v8EvP8PxT5FluOjjuqf2Pyg-1782814603.054986-1.0.1.1-MySQVsk63hSfEYq4NcqXASHzPfh9Nb9zDJcKEzdqrPw; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'X-Robots-Tag', b'none'), (b'CF-RAY', b'a13c6ac51ab2ca42-MAA')])
+2026-06-30 15:46:45,376 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 15:46:45,376 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 15:46:45,376 [DEBUG] receive_response_body.complete
+2026-06-30 15:46:45,376 [DEBUG] response_closed.started
+2026-06-30 15:46:45,376 [DEBUG] response_closed.complete
+2026-06-30 15:46:45,377 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:16:45 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:16:44Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:16:45Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:16:43Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:16:44Z', 'request-id': 'req_011CcZGgdth1Muy1mbuT6WWm', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-9bb7d472e2666fe8b50c071d833d5191-e466ae58001eb67c-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'cf-cache-status': 'DYNAMIC', 'set-cookie': '_cfuvid=6VS5NZBERprdOI.MEd70v8EvP8PxT5FluOjjuqf2Pyg-1782814603.054986-1.0.1.1-MySQVsk63hSfEYq4NcqXASHzPfh9Nb9zDJcKEzdqrPw; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'x-robots-tag': 'none', 'cf-ray': 'a13c6ac51ab2ca42-MAA'})
+2026-06-30 15:46:45,377 [DEBUG] request_id: req_011CcZGgdth1Muy1mbuT6WWm
+2026-06-30 15:46:45,411 [INFO]   normalized  : acne
+2026-06-30 15:46:45,411 [INFO]   intent      : concern
+2026-06-30 15:46:45,411 [INFO]   concepts    : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 15:46:45,411 [INFO]   exclusions  : []
+2026-06-30 15:46:45,411 [INFO]   is_negation : False
+2026-06-30 15:46:45,411 [INFO]   confidence  : high
+2026-06-30 15:46:45,411 [INFO] ──────────────────────────────────────────────────
+2026-06-30 15:46:45,411 [INFO] STEP 2 — FETCH CANDIDATES FROM DB
+2026-06-30 15:46:45,411 [INFO]   Search terms  : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 15:46:45,411 [INFO]   Exclusions    : []
+2026-06-30 15:46:45,411 [INFO]   Intent        : concern
+2026-06-30 15:46:45,412 [DEBUG]   Executing UNION query with 5 search term(s) and 0 exclusion(s)
+2026-06-30 15:46:45,519 [INFO]   DB returned 30 raw candidates before score filtering
+2026-06-30 15:46:45,519 [INFO] ──────────────────────────────────────────────────
+2026-06-30 15:46:45,519 [INFO] STEP 3 — FILTER & SCORE CANDIDATES
+2026-06-30 15:46:45,519 [INFO]   Total before filter : 30
+2026-06-30 15:46:45,519 [INFO]   After zero-score filter : 30
+2026-06-30 15:46:45,519 [INFO]   [01] score=  17 | treatment  | IPL Acne Therapy
+2026-06-30 15:46:45,519 [INFO]   [02] score=  17 | treatment  | LED Acne Therapy
+2026-06-30 15:46:45,519 [INFO]   [03] score=  17 | device     | Acne 400–600
+2026-06-30 15:46:45,519 [INFO]   [04] score=  17 | device     | Celluma Pro (acne mode)
+2026-06-30 15:46:45,519 [INFO]   [05] score=  17 | device     | Celluma Acne
+2026-06-30 15:46:45,520 [INFO]   [06] score=  17 | device     | Harmony XL PRO (acne protocols)
+2026-06-30 15:46:45,520 [INFO]   [07] score=  17 | device     | LightStim Acne
+2026-06-30 15:46:45,520 [INFO]   [08] score=  17 | device     | LightStim for Acne
+2026-06-30 15:46:45,520 [INFO]   [09] score=  17 | device     | Lumenis M22 / Stellar M22 (acne filters)
+2026-06-30 15:46:45,520 [INFO]   [10] score=  17 | device     | Nordlys IPL (acne filters)
+2026-06-30 15:46:45,520 [INFO]   ... and 20 more (run with --debug to see all)
+2026-06-30 15:46:45,520 [INFO] ──────────────────────────────────────────────────
+2026-06-30 15:46:45,520 [INFO] STEP 4 — GROUP RESULTS by intent: 'concern'
+2026-06-30 15:46:45,520 [INFO]   Treatments in pool : 8
+2026-06-30 15:46:45,520 [INFO]   Devices in pool    : 22
+2026-06-30 15:46:45,520 [INFO]   Group 'treatments' — 5 result(s):
+2026-06-30 15:46:45,520 [INFO]     • [17] IPL Acne Therapy (light-based)
+2026-06-30 15:46:45,520 [INFO]     • [17] LED Acne Therapy (light-based)
+2026-06-30 15:46:45,521 [INFO]     • [7] LED Inflammation Reduction (light-based)
+2026-06-30 15:46:45,521 [INFO]     • [7] LED Blue Light (light-based)
+2026-06-30 15:46:45,521 [INFO]     • [7] Deep Cleansing Facial (mechanical)
+2026-06-30 15:46:45,521 [INFO]   Group 'devices' — 5 result(s):
+2026-06-30 15:46:45,521 [INFO]     • [17] Acne 400–600 (light-based)
+2026-06-30 15:46:45,521 [INFO]     • [17] Celluma Pro (acne mode) (light-based)
+2026-06-30 15:46:45,521 [INFO]     • [17] Celluma Acne (light-based)
+2026-06-30 15:46:45,521 [INFO]     • [17] Harmony XL PRO (acne protocols) (light-based)
+2026-06-30 15:46:45,521 [INFO]     • [17] LightStim Acne (light-based)
+2026-06-30 15:46:45,521 [INFO] ──────────────────────────────────────────────────
+2026-06-30 15:46:45,521 [INFO] SEARCH COMPLETE
+2026-06-30 15:46:45,521 [INFO] Total results returned: 10
+2026-06-30 15:46:45,521 [INFO]   [sort_final_output] treatments (5 items):
+2026-06-30 15:46:45,521 [INFO]     • [17] IPL Acne Therapy
+2026-06-30 15:46:45,521 [INFO]     • [17] LED Acne Therapy
+2026-06-30 15:46:45,522 [INFO]     • [7] LED Inflammation Reduction
+2026-06-30 15:46:45,522 [INFO]     • [7] LED Blue Light
+2026-06-30 15:46:45,522 [INFO]     • [7] Deep Cleansing Facial
+2026-06-30 15:46:45,522 [INFO]   [sort_final_output] devices (5 items) sorted by modality/family:
+2026-06-30 15:46:45,522 [INFO]     • Harmony XL PRO (acne protocols) | modality=light-based | family=IPL
+2026-06-30 15:46:45,522 [INFO]     • Celluma Pro (acne mode) | modality=light-based | family=LED
+2026-06-30 15:46:45,522 [INFO]     • Celluma Acne | modality=light-based | family=LED
+2026-06-30 15:46:45,522 [INFO]     • LightStim Acne | modality=light-based | family=LED light therapy
+2026-06-30 15:46:45,522 [INFO]     • Acne 400–600 | modality=light-based | family=LED/light therapy
+2026-06-30 15:46:45,522 [INFO]   [sort_final_output] Final group order: ['treatments', 'devices']
+2026-06-30 16:04:10,805 [INFO] Connected to MySQL: localhost/zynq_code_db
+2026-06-30 16:04:10,805 [INFO] 
+============================================================
+2026-06-30 16:04:10,805 [INFO] SEARCH QUERY: 'pimple'
+2026-06-30 16:04:10,805 [INFO] Timestamp: 2026-06-30T16:04:10.805681
+2026-06-30 16:04:10,805 [INFO] ============================================================
+2026-06-30 16:04:10,805 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:04:10,806 [INFO] STEP 1 — CLASSIFY QUERY: 'pimple'
+2026-06-30 16:04:10,810 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x1105ea390>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-8926f416-0bea-4b7e-914a-6daefab40658', 'content': None, 'json_data': {'max_tokens': 400, 'messages': [{'role': 'user', 'content': 'You are a search query classifier for a medical aesthetics platform selling\ntreatments and devices. Users search in English or Swedish with 1-4 word queries.\n\nUser searched: "pimple"\n\nAnalyze and return ONLY this JSON. No explanation. No markdown.\n\n{\n  "normalized": "core concept in English, single word or short phrase",\n  "intent": "one of: treatment | device | concern | clinic | location | exclusion",\n  "concepts": ["2-5 related English concept words to search the DB for"],\n  "exclusions": ["terms to EXCLUDE from results — empty array if none"],\n  "is_negation": true or false,\n  "confidence": "high | medium | low"\n}\n\nClassification rules:\n- \'non-laser\', \'laser alternative\', \'without laser\', \'no botox\' → intent: exclusion, is_negation: true\n- Device brand names (Morpheus8, Fraxel, HydraFacial) → intent: device\n- Treatment names (Botox, filler, microneedling) → intent: treatment\n- Skin concerns (pigmentation, acne, wrinkles, dark spots) → intent: concern\n- City names → intent: location\n- Clinic names → intent: clinic\n\nExamples:\n- "non-laser"        → intent: exclusion, exclusions: ["laser"], concepts: [], is_negation: true\n- "pigment spots"    → intent: concern, concepts: ["pigmentation","melasma","dark spots","sun damage"]\n- "morpheus8"        → intent: device, concepts: ["morpheus8","RF microneedling","radiofrequency"]\n- "botox"            → intent: treatment, concepts: ["botox","neurotoxin","wrinkle injection","botulinum"]\n- "laser behandling" → intent: treatment, concepts: ["laser treatment","laser resurfacing","laser therapy"]\n- "håravfall"        → intent: concern, concepts: ["hair loss","hair regrowth","alopecia"]\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0.1}}
+2026-06-30 16:04:10,863 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:04:10,865 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=[(65535, 8, True), (6, 257, 60), (6, 258, 5)]
+2026-06-30 16:04:10,954 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x1115f6a10>
+2026-06-30 16:04:10,955 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x111700ef0> server_hostname='api.anthropic.com' timeout=5.0
+2026-06-30 16:04:11,036 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x11173f390>
+2026-06-30 16:04:11,036 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:04:11,037 [DEBUG] send_request_headers.complete
+2026-06-30 16:04:11,037 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:04:11,038 [DEBUG] send_request_body.complete
+2026-06-30 16:04:11,038 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:04:12,483 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:34:12 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:34:11Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:34:12Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:34:11Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:34:11Z'), (b'request-id', b'req_011CcZJ1trFWaZj2d5MMbYeJ'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-c17ec554feb068924832927a805a2935-5cfa660fa5e2bcca-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'cf-cache-status', b'DYNAMIC'), (b'set-cookie', b'_cfuvid=Vim3Dg.WyhTOVUyESoo_fXziYNOELGUcj2imqUkaEK4-1782815651.1592689-1.0.1.1-RgGW4nowyCxLwCxNgkQVobAi_PIFJuHQK34Stn8k.ek; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'X-Robots-Tag', b'none'), (b'CF-RAY', b'a13c845bbc54c728-MAA')])
+2026-06-30 16:04:12,484 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:04:12,485 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:04:12,485 [DEBUG] receive_response_body.complete
+2026-06-30 16:04:12,485 [DEBUG] response_closed.started
+2026-06-30 16:04:12,485 [DEBUG] response_closed.complete
+2026-06-30 16:04:12,486 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:34:12 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:34:11Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:34:12Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:34:11Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:34:11Z', 'request-id': 'req_011CcZJ1trFWaZj2d5MMbYeJ', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-c17ec554feb068924832927a805a2935-5cfa660fa5e2bcca-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'cf-cache-status': 'DYNAMIC', 'set-cookie': '_cfuvid=Vim3Dg.WyhTOVUyESoo_fXziYNOELGUcj2imqUkaEK4-1782815651.1592689-1.0.1.1-RgGW4nowyCxLwCxNgkQVobAi_PIFJuHQK34Stn8k.ek; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'x-robots-tag': 'none', 'cf-ray': 'a13c845bbc54c728-MAA'})
+2026-06-30 16:04:12,486 [DEBUG] request_id: req_011CcZJ1trFWaZj2d5MMbYeJ
+2026-06-30 16:04:12,522 [INFO]   normalized  : acne
+2026-06-30 16:04:12,522 [INFO]   intent      : concern
+2026-06-30 16:04:12,522 [INFO]   concepts    : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:04:12,522 [INFO]   exclusions  : []
+2026-06-30 16:04:12,523 [INFO]   is_negation : False
+2026-06-30 16:04:12,523 [INFO]   confidence  : high
+2026-06-30 16:04:12,523 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:04:12,523 [INFO] STEP 2 — FETCH CANDIDATES FROM DB
+2026-06-30 16:04:12,523 [INFO]   Search terms  : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:04:12,523 [INFO]   Exclusions    : []
+2026-06-30 16:04:12,523 [INFO]   Intent        : concern
+2026-06-30 16:04:12,524 [DEBUG]   Executing UNION query with 5 search term(s) and 0 exclusion(s)
+2026-06-30 16:04:12,566 [INFO]   DB returned 30 raw candidates before score filtering
+2026-06-30 16:04:12,566 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:04:12,567 [INFO] STEP 3 — FILTER & SCORE CANDIDATES
+2026-06-30 16:04:12,567 [INFO]   Total before filter : 30
+2026-06-30 16:04:12,567 [INFO]   After zero-score filter : 30
+2026-06-30 16:04:12,567 [INFO]   [01] score=  17 | treatment  | IPL Acne Therapy
+2026-06-30 16:04:12,567 [INFO]   [02] score=  17 | treatment  | LED Acne Therapy
+2026-06-30 16:04:12,567 [INFO]   [03] score=  17 | device     | Acne 400–600
+2026-06-30 16:04:12,567 [INFO]   [04] score=  17 | device     | Celluma Pro (acne mode)
+2026-06-30 16:04:12,567 [INFO]   [05] score=  17 | device     | Celluma Acne
+2026-06-30 16:04:12,567 [INFO]   [06] score=  17 | device     | Harmony XL PRO (acne protocols)
+2026-06-30 16:04:12,567 [INFO]   [07] score=  17 | device     | LightStim Acne
+2026-06-30 16:04:12,567 [INFO]   [08] score=  17 | device     | LightStim for Acne
+2026-06-30 16:04:12,567 [INFO]   [09] score=  17 | device     | Lumenis M22 / Stellar M22 (acne filters)
+2026-06-30 16:04:12,567 [INFO]   [10] score=  17 | device     | Nordlys IPL (acne filters)
+2026-06-30 16:04:12,567 [INFO]   ... and 20 more (run with --debug to see all)
+2026-06-30 16:04:12,567 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:04:12,567 [INFO] STEP 4 — GROUP RESULTS by intent: 'concern'
+2026-06-30 16:04:12,568 [INFO]   Treatments in pool : 8
+2026-06-30 16:04:12,568 [INFO]   Devices in pool    : 22
+2026-06-30 16:04:12,568 [INFO]   Group 'treatments' — 5 result(s):
+2026-06-30 16:04:12,568 [INFO]     • [17] IPL Acne Therapy (light-based)
+2026-06-30 16:04:12,568 [INFO]     • [17] LED Acne Therapy (light-based)
+2026-06-30 16:04:12,568 [INFO]     • [7] LED Inflammation Reduction (light-based)
+2026-06-30 16:04:12,568 [INFO]     • [7] LED Blue Light (light-based)
+2026-06-30 16:04:12,568 [INFO]     • [7] Deep Cleansing Facial (mechanical)
+2026-06-30 16:04:12,568 [INFO]   Group 'devices' — 5 result(s):
+2026-06-30 16:04:12,568 [INFO]     • [17] Acne 400–600 (light-based)
+2026-06-30 16:04:12,568 [INFO]     • [17] Celluma Pro (acne mode) (light-based)
+2026-06-30 16:04:12,568 [INFO]     • [17] Celluma Acne (light-based)
+2026-06-30 16:04:12,568 [INFO]     • [17] Harmony XL PRO (acne protocols) (light-based)
+2026-06-30 16:04:12,568 [INFO]     • [17] LightStim Acne (light-based)
+2026-06-30 16:04:12,568 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:04:12,568 [INFO] SEARCH COMPLETE
+2026-06-30 16:04:12,569 [INFO] Total results returned: 10
+2026-06-30 16:04:12,569 [INFO]   [sort_final_output] treatments (5 items):
+2026-06-30 16:04:12,569 [INFO]     • [17] IPL Acne Therapy
+2026-06-30 16:04:12,569 [INFO]     • [17] LED Acne Therapy
+2026-06-30 16:04:12,569 [INFO]     • [7] LED Inflammation Reduction
+2026-06-30 16:04:12,569 [INFO]     • [7] LED Blue Light
+2026-06-30 16:04:12,569 [INFO]     • [7] Deep Cleansing Facial
+2026-06-30 16:04:12,569 [INFO]   [sort_final_output] devices (5 items) sorted by modality/family:
+2026-06-30 16:04:12,569 [INFO]     • Harmony XL PRO (acne protocols) | modality=light-based | family=IPL
+2026-06-30 16:04:12,569 [INFO]     • Celluma Pro (acne mode) | modality=light-based | family=LED
+2026-06-30 16:04:12,569 [INFO]     • Celluma Acne | modality=light-based | family=LED
+2026-06-30 16:04:12,569 [INFO]     • LightStim Acne | modality=light-based | family=LED light therapy
+2026-06-30 16:04:12,569 [INFO]     • Acne 400–600 | modality=light-based | family=LED/light therapy
+2026-06-30 16:04:12,569 [INFO]   [sort_final_output] Final group order: ['treatments', 'devices']
+2026-06-30 16:04:12,570 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x1105ea390>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-cca8a9c8-9a5c-4c5d-8ff8-a50dd5a2fb50', 'content': None, 'json_data': {'max_tokens': 2000, 'messages': [{'role': 'user', 'content': 'Translate these medical aesthetics search result fields from English to Swedish.\nReturn ONLY a JSON array with the same length and order.\nKeep null values as null.\nDo not translate IDs, group names, modality, family, type, or score.\nKeep brand names and device names unchanged unless there is a natural Swedish treatment name.\n\nInput:\n[{"group": "treatments", "index": 0, "name": "IPL Acne Therapy", "concern": "Acne", "description": "Intense Pulsed Light using acne-specific filters to reduce acne-causing bacteria, inflammation and post-acne redness in suitable skin types."}, {"group": "treatments", "index": 1, "name": "LED Acne Therapy", "concern": "Acne", "description": "Blue and/or red LED light protocols targeting acne-causing bacteria and inflammation to improve breakout-prone skin."}, {"group": "treatments", "index": 2, "name": "LED Inflammation Reduction", "concern": "Inflammation", "description": "LED protocols (often red + blue + NIR) aimed at reducing inflammation, redness and irritation in acne and reactive skin."}, {"group": "treatments", "index": 3, "name": "LED Blue Light", "concern": "Acne, Bacterial infection", "description": "Blue LED light therapy targeting acne-causing bacteria to reduce inflammatory breakouts and support clearer skin."}, {"group": "treatments", "index": 4, "name": "Deep Cleansing Facial", "concern": "Acne, Congestion", "description": "Manual and enzymatic deep-cleansing facial designed to remove impurities, decongest pores and rebalance the skin."}, {"group": "devices", "index": 0, "name": "Harmony XL PRO (acne protocols)", "concern": null, "description": null}, {"group": "devices", "index": 1, "name": "Celluma Pro (acne mode)", "concern": null, "description": null}, {"group": "devices", "index": 2, "name": "Celluma Acne", "concern": null, "description": null}, {"group": "devices", "index": 3, "name": "LightStim Acne", "concern": null, "description": null}, {"group": "devices", "index": 4, "name": "Acne 400–600", "concern": null, "description": null}]\n\nRequired output item shape:\n{\n  "name": "translated name or null",\n  "concern": "translated concern or null",\n  "description": "translated description or null"\n}\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0}}
+2026-06-30 16:04:12,571 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:04:12,571 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:04:12,572 [DEBUG] send_request_headers.complete
+2026-06-30 16:04:12,572 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:04:12,572 [DEBUG] send_request_body.complete
+2026-06-30 16:04:12,572 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:04:18,582 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:34:18 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:34:15Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'999000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:34:18Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:34:14Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'5999000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:34:15Z'), (b'request-id', b'req_011CcZJ273ivc7faPKhgpL1P'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-8c4ff3583a735f96e1fbb1d5e1908fa1-ab0eff5b08b7322d-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'cf-cache-status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'CF-RAY', b'a13c846cca0bc728-MAA')])
+2026-06-30 16:04:18,582 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:04:18,583 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:04:18,583 [DEBUG] receive_response_body.complete
+2026-06-30 16:04:18,583 [DEBUG] response_closed.started
+2026-06-30 16:04:18,583 [DEBUG] response_closed.complete
+2026-06-30 16:04:18,584 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:34:18 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:34:15Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '999000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:34:18Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:34:14Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '5999000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:34:15Z', 'request-id': 'req_011CcZJ273ivc7faPKhgpL1P', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-8c4ff3583a735f96e1fbb1d5e1908fa1-ab0eff5b08b7322d-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'cf-cache-status': 'DYNAMIC', 'x-robots-tag': 'none', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'cf-ray': 'a13c846cca0bc728-MAA'})
+2026-06-30 16:04:18,584 [DEBUG] request_id: req_011CcZJ273ivc7faPKhgpL1P
+2026-06-30 16:06:15,738 [INFO] Connected to MySQL: localhost/zynq_code_db
+2026-06-30 16:06:15,738 [INFO] 
+============================================================
+2026-06-30 16:06:15,738 [INFO] SEARCH QUERY: 'pimple'
+2026-06-30 16:06:15,738 [INFO] Timestamp: 2026-06-30T16:06:15.738901
+2026-06-30 16:06:15,739 [INFO] ============================================================
+2026-06-30 16:06:15,739 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:06:15,739 [INFO] STEP 1 — CLASSIFY QUERY: 'pimple'
+2026-06-30 16:06:15,739 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x1105ea390>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-571cad91-6b56-45ba-8398-51a2bbc2ba21', 'content': None, 'json_data': {'max_tokens': 400, 'messages': [{'role': 'user', 'content': 'You are a search query classifier for a medical aesthetics platform selling\ntreatments and devices. Users search in English or Swedish with 1-4 word queries.\n\nUser searched: "pimple"\n\nAnalyze and return ONLY this JSON. No explanation. No markdown.\n\n{\n  "normalized": "core concept in English, single word or short phrase",\n  "intent": "one of: treatment | device | concern | clinic | location | exclusion",\n  "concepts": ["2-5 related English concept words to search the DB for"],\n  "exclusions": ["terms to EXCLUDE from results — empty array if none"],\n  "is_negation": true or false,\n  "confidence": "high | medium | low"\n}\n\nClassification rules:\n- \'non-laser\', \'laser alternative\', \'without laser\', \'no botox\' → intent: exclusion, is_negation: true\n- Device brand names (Morpheus8, Fraxel, HydraFacial) → intent: device\n- Treatment names (Botox, filler, microneedling) → intent: treatment\n- Skin concerns (pigmentation, acne, wrinkles, dark spots) → intent: concern\n- City names → intent: location\n- Clinic names → intent: clinic\n\nExamples:\n- "non-laser"        → intent: exclusion, exclusions: ["laser"], concepts: [], is_negation: true\n- "pigment spots"    → intent: concern, concepts: ["pigmentation","melasma","dark spots","sun damage"]\n- "morpheus8"        → intent: device, concepts: ["morpheus8","RF microneedling","radiofrequency"]\n- "botox"            → intent: treatment, concepts: ["botox","neurotoxin","wrinkle injection","botulinum"]\n- "laser behandling" → intent: treatment, concepts: ["laser treatment","laser resurfacing","laser therapy"]\n- "håravfall"        → intent: concern, concepts: ["hair loss","hair regrowth","alopecia"]\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0.1}}
+2026-06-30 16:06:15,741 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:06:15,741 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=[(65535, 8, True), (6, 257, 60), (6, 258, 5)]
+2026-06-30 16:06:20,824 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x111652410>
+2026-06-30 16:06:20,824 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x111703920> server_hostname='api.anthropic.com' timeout=5.0
+2026-06-30 16:06:20,898 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x1118aa210>
+2026-06-30 16:06:20,898 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:06:20,899 [DEBUG] send_request_headers.complete
+2026-06-30 16:06:20,899 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:06:20,899 [DEBUG] send_request_body.complete
+2026-06-30 16:06:20,899 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:06:22,225 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:36:22 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:36:21Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:36:22Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:36:21Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:36:21Z'), (b'request-id', b'req_011CcZJBUADrjnC6Kyu9Vn9F'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-05b21e4b26b58d2e2d3f3fa1b3de2ab1-d93282c69759ecf1-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'cf-cache-status', b'DYNAMIC'), (b'set-cookie', b'_cfuvid=NWj80uHVPsedB59e2Lp0MZgYQ4QX1C0HsEPHv6valwI-1782815781.022951-1.0.1.1-OQcTEcuo3u25Ga8rM3SU7JSmI0Vx5EmjW.RjZSz4pgQ; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'X-Robots-Tag', b'none'), (b'CF-RAY', b'a13c878769356091-MAA')])
+2026-06-30 16:06:22,225 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:06:22,226 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:06:22,226 [DEBUG] receive_response_body.complete
+2026-06-30 16:06:22,226 [DEBUG] response_closed.started
+2026-06-30 16:06:22,226 [DEBUG] response_closed.complete
+2026-06-30 16:06:22,226 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:36:22 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:36:21Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:36:22Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:36:21Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:36:21Z', 'request-id': 'req_011CcZJBUADrjnC6Kyu9Vn9F', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-05b21e4b26b58d2e2d3f3fa1b3de2ab1-d93282c69759ecf1-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'cf-cache-status': 'DYNAMIC', 'set-cookie': '_cfuvid=NWj80uHVPsedB59e2Lp0MZgYQ4QX1C0HsEPHv6valwI-1782815781.022951-1.0.1.1-OQcTEcuo3u25Ga8rM3SU7JSmI0Vx5EmjW.RjZSz4pgQ; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'x-robots-tag': 'none', 'cf-ray': 'a13c878769356091-MAA'})
+2026-06-30 16:06:22,227 [DEBUG] request_id: req_011CcZJBUADrjnC6Kyu9Vn9F
+2026-06-30 16:06:22,229 [INFO]   normalized  : acne
+2026-06-30 16:06:22,229 [INFO]   intent      : concern
+2026-06-30 16:06:22,229 [INFO]   concepts    : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:06:22,229 [INFO]   exclusions  : []
+2026-06-30 16:06:22,229 [INFO]   is_negation : False
+2026-06-30 16:06:22,229 [INFO]   confidence  : high
+2026-06-30 16:06:22,229 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:06:22,229 [INFO] STEP 2 — FETCH CANDIDATES FROM DB
+2026-06-30 16:06:22,229 [INFO]   Search terms  : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:06:22,229 [INFO]   Exclusions    : []
+2026-06-30 16:06:22,229 [INFO]   Intent        : concern
+2026-06-30 16:06:22,230 [DEBUG]   Executing UNION query with 5 search term(s) and 0 exclusion(s)
+2026-06-30 16:06:22,262 [INFO]   DB returned 30 raw candidates before score filtering
+2026-06-30 16:06:22,262 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:06:22,262 [INFO] STEP 3 — FILTER & SCORE CANDIDATES
+2026-06-30 16:06:22,263 [INFO]   Total before filter : 30
+2026-06-30 16:06:22,263 [INFO]   After zero-score filter : 30
+2026-06-30 16:06:22,263 [INFO]   [01] score=  17 | treatment  | IPL Acne Therapy
+2026-06-30 16:06:22,263 [INFO]   [02] score=  17 | treatment  | LED Acne Therapy
+2026-06-30 16:06:22,263 [INFO]   [03] score=  17 | device     | Acne 400–600
+2026-06-30 16:06:22,263 [INFO]   [04] score=  17 | device     | Celluma Pro (acne mode)
+2026-06-30 16:06:22,263 [INFO]   [05] score=  17 | device     | Celluma Acne
+2026-06-30 16:06:22,263 [INFO]   [06] score=  17 | device     | Harmony XL PRO (acne protocols)
+2026-06-30 16:06:22,263 [INFO]   [07] score=  17 | device     | LightStim Acne
+2026-06-30 16:06:22,263 [INFO]   [08] score=  17 | device     | LightStim for Acne
+2026-06-30 16:06:22,264 [INFO]   [09] score=  17 | device     | Lumenis M22 / Stellar M22 (acne filters)
+2026-06-30 16:06:22,264 [INFO]   [10] score=  17 | device     | Nordlys IPL (acne filters)
+2026-06-30 16:06:22,264 [INFO]   ... and 20 more (run with --debug to see all)
+2026-06-30 16:06:22,264 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:06:22,264 [INFO] STEP 4 — GROUP RESULTS by intent: 'concern'
+2026-06-30 16:06:22,264 [INFO]   Treatments in pool : 8
+2026-06-30 16:06:22,264 [INFO]   Devices in pool    : 22
+2026-06-30 16:06:22,264 [INFO]   Group 'treatments' — 5 result(s):
+2026-06-30 16:06:22,264 [INFO]     • [17] IPL Acne Therapy (light-based)
+2026-06-30 16:06:22,265 [INFO]     • [17] LED Acne Therapy (light-based)
+2026-06-30 16:06:22,265 [INFO]     • [7] LED Inflammation Reduction (light-based)
+2026-06-30 16:06:22,265 [INFO]     • [7] LED Blue Light (light-based)
+2026-06-30 16:06:22,265 [INFO]     • [7] Deep Cleansing Facial (mechanical)
+2026-06-30 16:06:22,265 [INFO]   Group 'devices' — 5 result(s):
+2026-06-30 16:06:22,265 [INFO]     • [17] Acne 400–600 (light-based)
+2026-06-30 16:06:22,265 [INFO]     • [17] Celluma Pro (acne mode) (light-based)
+2026-06-30 16:06:22,265 [INFO]     • [17] Celluma Acne (light-based)
+2026-06-30 16:06:22,265 [INFO]     • [17] Harmony XL PRO (acne protocols) (light-based)
+2026-06-30 16:06:22,265 [INFO]     • [17] LightStim Acne (light-based)
+2026-06-30 16:06:22,265 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:06:22,266 [INFO] SEARCH COMPLETE
+2026-06-30 16:06:22,266 [INFO] Total results returned: 10
+2026-06-30 16:06:22,266 [INFO]   [sort_final_output] treatments (5 items):
+2026-06-30 16:06:22,266 [INFO]     • [17] IPL Acne Therapy
+2026-06-30 16:06:22,266 [INFO]     • [17] LED Acne Therapy
+2026-06-30 16:06:22,266 [INFO]     • [7] LED Inflammation Reduction
+2026-06-30 16:06:22,266 [INFO]     • [7] LED Blue Light
+2026-06-30 16:06:22,266 [INFO]     • [7] Deep Cleansing Facial
+2026-06-30 16:06:22,266 [INFO]   [sort_final_output] devices (5 items) sorted by modality/family:
+2026-06-30 16:06:22,266 [INFO]     • Harmony XL PRO (acne protocols) | modality=light-based | family=IPL
+2026-06-30 16:06:22,266 [INFO]     • Celluma Pro (acne mode) | modality=light-based | family=LED
+2026-06-30 16:06:22,266 [INFO]     • Celluma Acne | modality=light-based | family=LED
+2026-06-30 16:06:22,266 [INFO]     • LightStim Acne | modality=light-based | family=LED light therapy
+2026-06-30 16:06:22,266 [INFO]     • Acne 400–600 | modality=light-based | family=LED/light therapy
+2026-06-30 16:06:22,267 [INFO]   [sort_final_output] Final group order: ['treatments', 'devices']
+2026-06-30 16:06:59,104 [INFO] Connected to MySQL: localhost/zynq_code_db
+2026-06-30 16:06:59,105 [INFO] 
+============================================================
+2026-06-30 16:06:59,105 [INFO] SEARCH QUERY: 'pimple'
+2026-06-30 16:06:59,105 [INFO] Timestamp: 2026-06-30T16:06:59.105304
+2026-06-30 16:06:59,105 [INFO] ============================================================
+2026-06-30 16:06:59,105 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:06:59,105 [INFO] STEP 1 — CLASSIFY QUERY: 'pimple'
+2026-06-30 16:06:59,107 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x10d77a510>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-49821ef7-2f41-4969-929b-6967b9a0ff6c', 'content': None, 'json_data': {'max_tokens': 400, 'messages': [{'role': 'user', 'content': 'You are a search query classifier for a medical aesthetics platform selling\ntreatments and devices. Users search in English or Swedish with 1-4 word queries.\n\nUser searched: "pimple"\n\nAnalyze and return ONLY this JSON. No explanation. No markdown.\n\n{\n  "normalized": "core concept in English, single word or short phrase",\n  "intent": "one of: treatment | device | concern | clinic | location | exclusion",\n  "concepts": ["2-5 related English concept words to search the DB for"],\n  "exclusions": ["terms to EXCLUDE from results — empty array if none"],\n  "is_negation": true or false,\n  "confidence": "high | medium | low"\n}\n\nClassification rules:\n- \'non-laser\', \'laser alternative\', \'without laser\', \'no botox\' → intent: exclusion, is_negation: true\n- Device brand names (Morpheus8, Fraxel, HydraFacial) → intent: device\n- Treatment names (Botox, filler, microneedling) → intent: treatment\n- Skin concerns (pigmentation, acne, wrinkles, dark spots) → intent: concern\n- City names → intent: location\n- Clinic names → intent: clinic\n\nExamples:\n- "non-laser"        → intent: exclusion, exclusions: ["laser"], concepts: [], is_negation: true\n- "pigment spots"    → intent: concern, concepts: ["pigmentation","melasma","dark spots","sun damage"]\n- "morpheus8"        → intent: device, concepts: ["morpheus8","RF microneedling","radiofrequency"]\n- "botox"            → intent: treatment, concepts: ["botox","neurotoxin","wrinkle injection","botulinum"]\n- "laser behandling" → intent: treatment, concepts: ["laser treatment","laser resurfacing","laser therapy"]\n- "håravfall"        → intent: concern, concepts: ["hair loss","hair regrowth","alopecia"]\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0.1}}
+2026-06-30 16:06:59,139 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:06:59,139 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=[(65535, 8, True), (6, 257, 60), (6, 258, 5)]
+2026-06-30 16:06:59,747 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10e75d150>
+2026-06-30 16:06:59,762 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10e860680> server_hostname='api.anthropic.com' timeout=5.0
+2026-06-30 16:06:59,843 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10e8a8790>
+2026-06-30 16:06:59,843 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:06:59,844 [DEBUG] send_request_headers.complete
+2026-06-30 16:06:59,844 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:06:59,844 [DEBUG] send_request_body.complete
+2026-06-30 16:06:59,844 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:07:01,291 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:37:01 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:37:00Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:37:01Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:37:00Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:37:00Z'), (b'request-id', b'req_011CcZJELa9mriVZroxfjFoH'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-c79d6d3a3bcf374ed02b63f25a0f799d-a1697244673f0597-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'set-cookie', b'_cfuvid=4g2wni_i7lXjfiP_HJ4siBR_apTekasCLkKvCMBx2cw-1782815819.9642484-1.0.1.1-akcgiozDz39RAbKTXDi7BxWru2gsvu1z8DysLaMCkdI; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com'), (b'X-Robots-Tag', b'none'), (b'cf-cache-status', b'DYNAMIC'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'CF-RAY', b'a13c887acf94b8fe-MAA')])
+2026-06-30 16:07:01,293 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:07:01,294 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:07:01,294 [DEBUG] receive_response_body.complete
+2026-06-30 16:07:01,294 [DEBUG] response_closed.started
+2026-06-30 16:07:01,295 [DEBUG] response_closed.complete
+2026-06-30 16:07:01,295 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:37:01 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:37:00Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:37:01Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:37:00Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:37:00Z', 'request-id': 'req_011CcZJELa9mriVZroxfjFoH', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-c79d6d3a3bcf374ed02b63f25a0f799d-a1697244673f0597-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'set-cookie': '_cfuvid=4g2wni_i7lXjfiP_HJ4siBR_apTekasCLkKvCMBx2cw-1782815819.9642484-1.0.1.1-akcgiozDz39RAbKTXDi7BxWru2gsvu1z8DysLaMCkdI; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com', 'x-robots-tag': 'none', 'cf-cache-status': 'DYNAMIC', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'cf-ray': 'a13c887acf94b8fe-MAA'})
+2026-06-30 16:07:01,295 [DEBUG] request_id: req_011CcZJELa9mriVZroxfjFoH
+2026-06-30 16:07:01,351 [INFO]   normalized  : acne
+2026-06-30 16:07:01,351 [INFO]   intent      : concern
+2026-06-30 16:07:01,351 [INFO]   concepts    : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:07:01,351 [INFO]   exclusions  : []
+2026-06-30 16:07:01,351 [INFO]   is_negation : False
+2026-06-30 16:07:01,351 [INFO]   confidence  : high
+2026-06-30 16:07:01,352 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:07:01,352 [INFO] STEP 2 — FETCH CANDIDATES FROM DB
+2026-06-30 16:07:01,352 [INFO]   Search terms  : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:07:01,352 [INFO]   Exclusions    : []
+2026-06-30 16:07:01,352 [INFO]   Intent        : concern
+2026-06-30 16:07:01,352 [DEBUG]   Executing UNION query with 5 search term(s) and 0 exclusion(s)
+2026-06-30 16:07:01,395 [INFO]   DB returned 30 raw candidates before score filtering
+2026-06-30 16:07:01,396 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:07:01,396 [INFO] STEP 3 — FILTER & SCORE CANDIDATES
+2026-06-30 16:07:01,396 [INFO]   Total before filter : 30
+2026-06-30 16:07:01,396 [INFO]   After zero-score filter : 30
+2026-06-30 16:07:01,396 [INFO]   [01] score=  17 | treatment  | IPL Acne Therapy
+2026-06-30 16:07:01,397 [INFO]   [02] score=  17 | treatment  | LED Acne Therapy
+2026-06-30 16:07:01,397 [INFO]   [03] score=  17 | device     | Acne 400–600
+2026-06-30 16:07:01,397 [INFO]   [04] score=  17 | device     | Celluma Pro (acne mode)
+2026-06-30 16:07:01,397 [INFO]   [05] score=  17 | device     | Celluma Acne
+2026-06-30 16:07:01,397 [INFO]   [06] score=  17 | device     | Harmony XL PRO (acne protocols)
+2026-06-30 16:07:01,397 [INFO]   [07] score=  17 | device     | LightStim Acne
+2026-06-30 16:07:01,398 [INFO]   [08] score=  17 | device     | LightStim for Acne
+2026-06-30 16:07:01,398 [INFO]   [09] score=  17 | device     | Lumenis M22 / Stellar M22 (acne filters)
+2026-06-30 16:07:01,398 [INFO]   [10] score=  17 | device     | Nordlys IPL (acne filters)
+2026-06-30 16:07:01,398 [INFO]   ... and 20 more (run with --debug to see all)
+2026-06-30 16:07:01,398 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:07:01,399 [INFO] STEP 4 — GROUP RESULTS by intent: 'concern'
+2026-06-30 16:07:01,399 [INFO]   Treatments in pool : 8
+2026-06-30 16:07:01,399 [INFO]   Devices in pool    : 22
+2026-06-30 16:07:01,399 [INFO]   Group 'treatments' — 5 result(s):
+2026-06-30 16:07:01,399 [INFO]     • [17] IPL Acne Therapy (light-based)
+2026-06-30 16:07:01,399 [INFO]     • [17] LED Acne Therapy (light-based)
+2026-06-30 16:07:01,399 [INFO]     • [7] LED Inflammation Reduction (light-based)
+2026-06-30 16:07:01,400 [INFO]     • [7] LED Blue Light (light-based)
+2026-06-30 16:07:01,400 [INFO]     • [7] Deep Cleansing Facial (mechanical)
+2026-06-30 16:07:01,400 [INFO]   Group 'devices' — 5 result(s):
+2026-06-30 16:07:01,400 [INFO]     • [17] Acne 400–600 (light-based)
+2026-06-30 16:07:01,400 [INFO]     • [17] Celluma Pro (acne mode) (light-based)
+2026-06-30 16:07:01,400 [INFO]     • [17] Celluma Acne (light-based)
+2026-06-30 16:07:01,400 [INFO]     • [17] Harmony XL PRO (acne protocols) (light-based)
+2026-06-30 16:07:01,400 [INFO]     • [17] LightStim Acne (light-based)
+2026-06-30 16:07:01,400 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:07:01,401 [INFO] SEARCH COMPLETE
+2026-06-30 16:07:01,401 [INFO] Total results returned: 10
+2026-06-30 16:07:01,401 [INFO]   [sort_final_output] treatments (5 items):
+2026-06-30 16:07:01,401 [INFO]     • [17] IPL Acne Therapy
+2026-06-30 16:07:01,401 [INFO]     • [17] LED Acne Therapy
+2026-06-30 16:07:01,401 [INFO]     • [7] LED Inflammation Reduction
+2026-06-30 16:07:01,402 [INFO]     • [7] LED Blue Light
+2026-06-30 16:07:01,402 [INFO]     • [7] Deep Cleansing Facial
+2026-06-30 16:07:01,402 [INFO]   [sort_final_output] devices (5 items) sorted by modality/family:
+2026-06-30 16:07:01,402 [INFO]     • Harmony XL PRO (acne protocols) | modality=light-based | family=IPL
+2026-06-30 16:07:01,402 [INFO]     • Celluma Pro (acne mode) | modality=light-based | family=LED
+2026-06-30 16:07:01,402 [INFO]     • Celluma Acne | modality=light-based | family=LED
+2026-06-30 16:07:01,403 [INFO]     • LightStim Acne | modality=light-based | family=LED light therapy
+2026-06-30 16:07:01,403 [INFO]     • Acne 400–600 | modality=light-based | family=LED/light therapy
+2026-06-30 16:07:01,403 [INFO]   [sort_final_output] Final group order: ['treatments', 'devices']
+2026-06-30 16:07:01,405 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x10d77a510>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-d1306a82-621e-49bc-8df5-f764d5624d06', 'content': None, 'json_data': {'max_tokens': 2000, 'messages': [{'role': 'user', 'content': 'Translate only the name, concern, and description fields from English to Swedish for treatments and devices.\nReturn ONLY a JSON array with the same length and order.\nKeep null values as null.\nDo not translate IDs, group names, modality, family, type, or score.\nKeep brand names and device names unchanged unless there is a natural Swedish treatment/device name.\n\nInput:\n[{"group": "treatments", "index": 0, "name": "IPL Acne Therapy", "concern": "Acne", "description": "Intense Pulsed Light using acne-specific filters to reduce acne-causing bacteria, inflammation and post-acne redness in suitable skin types."}, {"group": "treatments", "index": 1, "name": "LED Acne Therapy", "concern": "Acne", "description": "Blue and/or red LED light protocols targeting acne-causing bacteria and inflammation to improve breakout-prone skin."}, {"group": "treatments", "index": 2, "name": "LED Inflammation Reduction", "concern": "Inflammation", "description": "LED protocols (often red + blue + NIR) aimed at reducing inflammation, redness and irritation in acne and reactive skin."}, {"group": "treatments", "index": 3, "name": "LED Blue Light", "concern": "Acne, Bacterial infection", "description": "Blue LED light therapy targeting acne-causing bacteria to reduce inflammatory breakouts and support clearer skin."}, {"group": "treatments", "index": 4, "name": "Deep Cleansing Facial", "concern": "Acne, Congestion", "description": "Manual and enzymatic deep-cleansing facial designed to remove impurities, decongest pores and rebalance the skin."}, {"group": "devices", "index": 0, "name": "Harmony XL PRO (acne protocols)", "concern": null, "description": null}, {"group": "devices", "index": 1, "name": "Celluma Pro (acne mode)", "concern": null, "description": null}, {"group": "devices", "index": 2, "name": "Celluma Acne", "concern": null, "description": null}, {"group": "devices", "index": 3, "name": "LightStim Acne", "concern": null, "description": null}, {"group": "devices", "index": 4, "name": "Acne 400–600", "concern": null, "description": null}]\n\nRequired output item shape:\n{\n  "name": "translated name or null",\n  "concern": "translated concern or null",\n  "description": "translated description or null"\n}\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0}}
+2026-06-30 16:07:01,417 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:07:01,417 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:07:01,418 [DEBUG] send_request_headers.complete
+2026-06-30 16:07:01,418 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:07:01,418 [DEBUG] send_request_body.complete
+2026-06-30 16:07:01,418 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:07:05,189 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:37:05 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:37:02Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:37:05Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:37:01Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:37:02Z'), (b'request-id', b'req_011CcZJETLhcQuTkoSYeGRat'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-5c19713f7372b1c1f9c6d3a7d24b54ae-aa9cac759503b651-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'X-Robots-Tag', b'none'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'cf-cache-status', b'DYNAMIC'), (b'CF-RAY', b'a13c88849f26b8fe-MAA')])
+2026-06-30 16:07:05,189 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:07:05,190 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:07:05,190 [DEBUG] receive_response_body.complete
+2026-06-30 16:07:05,190 [DEBUG] response_closed.started
+2026-06-30 16:07:05,190 [DEBUG] response_closed.complete
+2026-06-30 16:07:05,191 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:37:05 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:37:02Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:37:05Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:37:01Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:37:02Z', 'request-id': 'req_011CcZJETLhcQuTkoSYeGRat', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-5c19713f7372b1c1f9c6d3a7d24b54ae-aa9cac759503b651-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'x-robots-tag': 'none', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'cf-cache-status': 'DYNAMIC', 'cf-ray': 'a13c88849f26b8fe-MAA'})
+2026-06-30 16:07:05,191 [DEBUG] request_id: req_011CcZJETLhcQuTkoSYeGRat
+2026-06-30 16:08:46,516 [DEBUG] close.started
+2026-06-30 16:08:46,517 [DEBUG] close.complete
+2026-06-30 16:09:19,411 [INFO] Connected to MySQL: localhost/zynq_code_db
+2026-06-30 16:09:19,412 [INFO] 
+============================================================
+2026-06-30 16:09:19,412 [INFO] SEARCH QUERY: 'LaseMD'
+2026-06-30 16:09:19,412 [INFO] Timestamp: 2026-06-30T16:09:19.412337
+2026-06-30 16:09:19,412 [INFO] ============================================================
+2026-06-30 16:09:19,412 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:09:19,412 [INFO] STEP 1 — CLASSIFY QUERY: 'LaseMD'
+2026-06-30 16:09:19,413 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x10be92510>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-36cf8a56-481d-4b6b-b012-856862fb8729', 'content': None, 'json_data': {'max_tokens': 400, 'messages': [{'role': 'user', 'content': 'You are a search query classifier for a medical aesthetics platform selling\ntreatments and devices. Users search in English or Swedish with 1-4 word queries.\n\nUser searched: "LaseMD"\n\nAnalyze and return ONLY this JSON. No explanation. No markdown.\n\n{\n  "normalized": "core concept in English, single word or short phrase",\n  "intent": "one of: treatment | device | concern | clinic | location | exclusion",\n  "concepts": ["2-5 related English concept words to search the DB for"],\n  "exclusions": ["terms to EXCLUDE from results — empty array if none"],\n  "is_negation": true or false,\n  "confidence": "high | medium | low"\n}\n\nClassification rules:\n- \'non-laser\', \'laser alternative\', \'without laser\', \'no botox\' → intent: exclusion, is_negation: true\n- Device brand names (Morpheus8, Fraxel, HydraFacial) → intent: device\n- Treatment names (Botox, filler, microneedling) → intent: treatment\n- Skin concerns (pigmentation, acne, wrinkles, dark spots) → intent: concern\n- City names → intent: location\n- Clinic names → intent: clinic\n\nExamples:\n- "non-laser"        → intent: exclusion, exclusions: ["laser"], concepts: [], is_negation: true\n- "pigment spots"    → intent: concern, concepts: ["pigmentation","melasma","dark spots","sun damage"]\n- "morpheus8"        → intent: device, concepts: ["morpheus8","RF microneedling","radiofrequency"]\n- "botox"            → intent: treatment, concepts: ["botox","neurotoxin","wrinkle injection","botulinum"]\n- "laser behandling" → intent: treatment, concepts: ["laser treatment","laser resurfacing","laser therapy"]\n- "håravfall"        → intent: concern, concepts: ["hair loss","hair regrowth","alopecia"]\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0.1}}
+2026-06-30 16:09:19,444 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:09:19,444 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=[(65535, 8, True), (6, 257, 60), (6, 258, 5)]
+2026-06-30 16:09:24,498 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10cff0fd0>
+2026-06-30 16:09:24,499 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10cfa0f80> server_hostname='api.anthropic.com' timeout=5.0
+2026-06-30 16:09:24,553 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10cfe2ed0>
+2026-06-30 16:09:24,553 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:09:24,553 [DEBUG] send_request_headers.complete
+2026-06-30 16:09:24,553 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:09:24,554 [DEBUG] send_request_body.complete
+2026-06-30 16:09:24,554 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:09:30,703 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:39:30 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:39:30Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:39:30Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:39:24Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:39:30Z'), (b'request-id', b'req_011CcZJR1FMq1pfGScHCz8K1'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-b4eff793638a2b6b13c5abffb6a17589-a0f2cdf342565979-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'set-cookie', b'_cfuvid=L9Jl1MyV9v1kEpCAxgCMwi4Vs8EJ1U13cIZlAbWzh9M-1782815964.654962-1.0.1.1-7DvdGea487nrb_GG_kRw56oXDDPFP4CzsqkHW6uCwHc; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com'), (b'X-Robots-Tag', b'none'), (b'cf-cache-status', b'DYNAMIC'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'CF-RAY', b'a13c8c031c2217a7-MAA')])
+2026-06-30 16:09:30,705 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:09:30,705 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:09:30,705 [DEBUG] receive_response_body.complete
+2026-06-30 16:09:30,706 [DEBUG] response_closed.started
+2026-06-30 16:09:30,706 [DEBUG] response_closed.complete
+2026-06-30 16:09:30,706 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:39:30 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:39:30Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:39:30Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:39:24Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:39:30Z', 'request-id': 'req_011CcZJR1FMq1pfGScHCz8K1', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-b4eff793638a2b6b13c5abffb6a17589-a0f2cdf342565979-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'set-cookie': '_cfuvid=L9Jl1MyV9v1kEpCAxgCMwi4Vs8EJ1U13cIZlAbWzh9M-1782815964.654962-1.0.1.1-7DvdGea487nrb_GG_kRw56oXDDPFP4CzsqkHW6uCwHc; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com', 'x-robots-tag': 'none', 'cf-cache-status': 'DYNAMIC', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'cf-ray': 'a13c8c031c2217a7-MAA'})
+2026-06-30 16:09:30,706 [DEBUG] request_id: req_011CcZJR1FMq1pfGScHCz8K1
+2026-06-30 16:09:30,740 [INFO]   normalized  : LaseMD
+2026-06-30 16:09:30,740 [INFO]   intent      : device
+2026-06-30 16:09:30,740 [INFO]   concepts    : ['LaseMD', 'fractional laser', 'laser resurfacing', 'skin rejuvenation']
+2026-06-30 16:09:30,741 [INFO]   exclusions  : []
+2026-06-30 16:09:30,741 [INFO]   is_negation : False
+2026-06-30 16:09:30,741 [INFO]   confidence  : high
+2026-06-30 16:09:30,741 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:09:30,741 [INFO] STEP 2 — FETCH CANDIDATES FROM DB
+2026-06-30 16:09:30,741 [INFO]   Search terms  : ['LaseMD', 'fractional laser', 'laser resurfacing', 'skin rejuvenation']
+2026-06-30 16:09:30,741 [INFO]   Exclusions    : []
+2026-06-30 16:09:30,741 [INFO]   Intent        : device
+2026-06-30 16:09:30,741 [DEBUG]   Executing UNION query with 4 search term(s) and 0 exclusion(s)
+2026-06-30 16:09:30,781 [INFO]   DB returned 30 raw candidates before score filtering
+2026-06-30 16:09:30,782 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:09:30,782 [INFO] STEP 3 — FILTER & SCORE CANDIDATES
+2026-06-30 16:09:30,782 [INFO]   Total before filter : 30
+2026-06-30 16:09:30,782 [INFO]   After zero-score filter : 8
+2026-06-30 16:09:30,782 [INFO]   [01] score=  36 | treatment  | LaseMD
+2026-06-30 16:09:30,782 [INFO]   [02] score=  36 | device     | LaseMD
+2026-06-30 16:09:30,782 [INFO]   [03] score=  18 | device     | LaseMD Ultra Pro
+2026-06-30 16:09:30,782 [INFO]   [04] score=  14 | treatment  | FraxLase
+2026-06-30 16:09:30,782 [INFO]   [05] score=  10 | device     | Lutronic LaseMD Ultra
+2026-06-30 16:09:30,782 [INFO]   [06] score=  10 | device     | Lutronic LaseMD Ultra® (1927 nm Thulium)
+2026-06-30 16:09:30,782 [INFO]   [07] score=  10 | device     | LaseMD Ultra® (1927 nm Thulium)
+2026-06-30 16:09:30,782 [INFO]   [08] score=   6 | treatment  | Total Skin Solution
+2026-06-30 16:09:30,782 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:09:30,782 [INFO] STEP 4 — GROUP RESULTS by intent: 'device'
+2026-06-30 16:09:30,782 [INFO]   Treatments in pool : 3
+2026-06-30 16:09:30,783 [INFO]   Devices in pool    : 5
+2026-06-30 16:09:30,783 [INFO]   Group 'devices' — 5 result(s):
+2026-06-30 16:09:30,783 [INFO]     • [36] LaseMD (laser)
+2026-06-30 16:09:30,783 [INFO]     • [18] LaseMD Ultra Pro (laser)
+2026-06-30 16:09:30,783 [INFO]     • [10] Lutronic LaseMD Ultra (laser)
+2026-06-30 16:09:30,783 [INFO]     • [10] Lutronic LaseMD Ultra® (1927 nm Thulium) (laser)
+2026-06-30 16:09:30,783 [INFO]     • [10] LaseMD Ultra® (1927 nm Thulium) (laser)
+2026-06-30 16:09:30,783 [INFO]   Group 'related_treatments' — 3 result(s):
+2026-06-30 16:09:30,783 [INFO]     • [36] LaseMD (laser)
+2026-06-30 16:09:30,783 [INFO]     • [14] FraxLase (combination)
+2026-06-30 16:09:30,783 [INFO]     • [6] Total Skin Solution (combination)
+2026-06-30 16:09:30,783 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:09:30,783 [INFO] SEARCH COMPLETE
+2026-06-30 16:09:30,783 [INFO] Total results returned: 8
+2026-06-30 16:09:30,783 [INFO]   [sort_final_output] treatments (3 items):
+2026-06-30 16:09:30,784 [INFO]     • [36] LaseMD
+2026-06-30 16:09:30,784 [INFO]     • [14] FraxLase
+2026-06-30 16:09:30,784 [INFO]     • [6] Total Skin Solution
+2026-06-30 16:09:30,784 [INFO]   [sort_final_output] devices (5 items) sorted by modality/family:
+2026-06-30 16:09:30,784 [INFO]     • LaseMD | modality=laser | family=fractional
+2026-06-30 16:09:30,784 [INFO]     • LaseMD Ultra Pro | modality=laser | family=fractional CO2
+2026-06-30 16:09:30,784 [INFO]     • Lutronic LaseMD Ultra | modality=laser | family=fractional thulium
+2026-06-30 16:09:30,784 [INFO]     • Lutronic LaseMD Ultra® (1927 nm Thulium) | modality=laser | family=thulium
+2026-06-30 16:09:30,784 [INFO]     • LaseMD Ultra® (1927 nm Thulium) | modality=laser | family=Thulium, fractional non-ablative
+2026-06-30 16:09:30,784 [INFO]   [sort_final_output] Final group order: ['treatments', 'devices']
+2026-06-30 16:10:09,394 [INFO] Connected to MySQL: localhost/zynq_code_db
+2026-06-30 16:10:09,394 [INFO] 
+============================================================
+2026-06-30 16:10:09,394 [INFO] SEARCH QUERY: 'LaseMD'
+2026-06-30 16:10:09,395 [INFO] Timestamp: 2026-06-30T16:10:09.394990
+2026-06-30 16:10:09,395 [INFO] ============================================================
+2026-06-30 16:10:09,395 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:10:09,395 [INFO] STEP 1 — CLASSIFY QUERY: 'LaseMD'
+2026-06-30 16:10:09,395 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x10be92510>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-e98c8a7d-72d0-4374-b579-fdd6f3f0029f', 'content': None, 'json_data': {'max_tokens': 400, 'messages': [{'role': 'user', 'content': 'You are a search query classifier for a medical aesthetics platform selling\ntreatments and devices. Users search in English or Swedish with 1-4 word queries.\n\nUser searched: "LaseMD"\n\nAnalyze and return ONLY this JSON. No explanation. No markdown.\n\n{\n  "normalized": "core concept in English, single word or short phrase",\n  "intent": "one of: treatment | device | concern | clinic | location | exclusion",\n  "concepts": ["2-5 related English concept words to search the DB for"],\n  "exclusions": ["terms to EXCLUDE from results — empty array if none"],\n  "is_negation": true or false,\n  "confidence": "high | medium | low"\n}\n\nClassification rules:\n- \'non-laser\', \'laser alternative\', \'without laser\', \'no botox\' → intent: exclusion, is_negation: true\n- Device brand names (Morpheus8, Fraxel, HydraFacial) → intent: device\n- Treatment names (Botox, filler, microneedling) → intent: treatment\n- Skin concerns (pigmentation, acne, wrinkles, dark spots) → intent: concern\n- City names → intent: location\n- Clinic names → intent: clinic\n\nExamples:\n- "non-laser"        → intent: exclusion, exclusions: ["laser"], concepts: [], is_negation: true\n- "pigment spots"    → intent: concern, concepts: ["pigmentation","melasma","dark spots","sun damage"]\n- "morpheus8"        → intent: device, concepts: ["morpheus8","RF microneedling","radiofrequency"]\n- "botox"            → intent: treatment, concepts: ["botox","neurotoxin","wrinkle injection","botulinum"]\n- "laser behandling" → intent: treatment, concepts: ["laser treatment","laser resurfacing","laser therapy"]\n- "håravfall"        → intent: concern, concepts: ["hair loss","hair regrowth","alopecia"]\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0.1}}
+2026-06-30 16:10:09,396 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:10:09,397 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=[(65535, 8, True), (6, 257, 60), (6, 258, 5)]
+2026-06-30 16:10:09,444 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10d143e50>
+2026-06-30 16:10:09,445 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10cfa1250> server_hostname='api.anthropic.com' timeout=5.0
+2026-06-30 16:10:09,500 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10d143ed0>
+2026-06-30 16:10:09,500 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:10:09,500 [DEBUG] send_request_headers.complete
+2026-06-30 16:10:09,500 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:10:09,501 [DEBUG] send_request_body.complete
+2026-06-30 16:10:09,501 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:10:10,841 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:40:10 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:40:10Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:40:10Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:40:09Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:40:10Z'), (b'request-id', b'req_011CcZJUKNre4YjANpVe8Wb5'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-1ae8ebf6fd137388892cbb33ee89fdd9-6d1fbc5193efaa35-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'set-cookie', b'_cfuvid=gwCJpEWbTYVH8kbAnzjKqm2rNSjA6RjlJjDQ.BPZW1g-1782816009.6026921-1.0.1.1-xKbBOPfUH1uviFjIPYYPLJ9hG.Ld96MQL4JBgVvedIU; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com'), (b'X-Robots-Tag', b'none'), (b'cf-cache-status', b'DYNAMIC'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'CF-RAY', b'a13c8d1c0c2617ab-MAA')])
+2026-06-30 16:10:10,842 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:10:10,843 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:10:10,843 [DEBUG] receive_response_body.complete
+2026-06-30 16:10:10,843 [DEBUG] response_closed.started
+2026-06-30 16:10:10,843 [DEBUG] response_closed.complete
+2026-06-30 16:10:10,843 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:40:10 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:40:10Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:40:10Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:40:09Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:40:10Z', 'request-id': 'req_011CcZJUKNre4YjANpVe8Wb5', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-1ae8ebf6fd137388892cbb33ee89fdd9-6d1fbc5193efaa35-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'set-cookie': '_cfuvid=gwCJpEWbTYVH8kbAnzjKqm2rNSjA6RjlJjDQ.BPZW1g-1782816009.6026921-1.0.1.1-xKbBOPfUH1uviFjIPYYPLJ9hG.Ld96MQL4JBgVvedIU; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com', 'x-robots-tag': 'none', 'cf-cache-status': 'DYNAMIC', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'cf-ray': 'a13c8d1c0c2617ab-MAA'})
+2026-06-30 16:10:10,844 [DEBUG] request_id: req_011CcZJUKNre4YjANpVe8Wb5
+2026-06-30 16:10:10,844 [INFO]   normalized  : LaseMD
+2026-06-30 16:10:10,844 [INFO]   intent      : device
+2026-06-30 16:10:10,844 [INFO]   concepts    : ['LaseMD', 'fractional laser', 'laser resurfacing', 'skin rejuvenation']
+2026-06-30 16:10:10,844 [INFO]   exclusions  : []
+2026-06-30 16:10:10,845 [INFO]   is_negation : False
+2026-06-30 16:10:10,845 [INFO]   confidence  : high
+2026-06-30 16:10:10,845 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:10:10,845 [INFO] STEP 2 — FETCH CANDIDATES FROM DB
+2026-06-30 16:10:10,845 [INFO]   Search terms  : ['LaseMD', 'fractional laser', 'laser resurfacing', 'skin rejuvenation']
+2026-06-30 16:10:10,845 [INFO]   Exclusions    : []
+2026-06-30 16:10:10,845 [INFO]   Intent        : device
+2026-06-30 16:10:10,845 [DEBUG]   Executing UNION query with 4 search term(s) and 0 exclusion(s)
+2026-06-30 16:10:10,876 [INFO]   DB returned 30 raw candidates before score filtering
+2026-06-30 16:10:10,876 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:10:10,876 [INFO] STEP 3 — FILTER & SCORE CANDIDATES
+2026-06-30 16:10:10,876 [INFO]   Total before filter : 30
+2026-06-30 16:10:10,876 [INFO]   After zero-score filter : 8
+2026-06-30 16:10:10,876 [INFO]   [01] score=  36 | treatment  | LaseMD
+2026-06-30 16:10:10,876 [INFO]   [02] score=  36 | device     | LaseMD
+2026-06-30 16:10:10,876 [INFO]   [03] score=  18 | device     | LaseMD Ultra Pro
+2026-06-30 16:10:10,876 [INFO]   [04] score=  14 | treatment  | FraxLase
+2026-06-30 16:10:10,877 [INFO]   [05] score=  10 | device     | Lutronic LaseMD Ultra
+2026-06-30 16:10:10,877 [INFO]   [06] score=  10 | device     | Lutronic LaseMD Ultra® (1927 nm Thulium)
+2026-06-30 16:10:10,877 [INFO]   [07] score=  10 | device     | LaseMD Ultra® (1927 nm Thulium)
+2026-06-30 16:10:10,877 [INFO]   [08] score=   6 | treatment  | Total Skin Solution
+2026-06-30 16:10:10,877 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:10:10,877 [INFO] STEP 4 — GROUP RESULTS by intent: 'device'
+2026-06-30 16:10:10,877 [INFO]   Treatments in pool : 3
+2026-06-30 16:10:10,877 [INFO]   Devices in pool    : 5
+2026-06-30 16:10:10,877 [INFO]   Group 'devices' — 5 result(s):
+2026-06-30 16:10:10,877 [INFO]     • [36] LaseMD (laser)
+2026-06-30 16:10:10,877 [INFO]     • [18] LaseMD Ultra Pro (laser)
+2026-06-30 16:10:10,877 [INFO]     • [10] Lutronic LaseMD Ultra (laser)
+2026-06-30 16:10:10,877 [INFO]     • [10] Lutronic LaseMD Ultra® (1927 nm Thulium) (laser)
+2026-06-30 16:10:10,877 [INFO]     • [10] LaseMD Ultra® (1927 nm Thulium) (laser)
+2026-06-30 16:10:10,877 [INFO]   Group 'related_treatments' — 3 result(s):
+2026-06-30 16:10:10,877 [INFO]     • [36] LaseMD (laser)
+2026-06-30 16:10:10,877 [INFO]     • [14] FraxLase (combination)
+2026-06-30 16:10:10,877 [INFO]     • [6] Total Skin Solution (combination)
+2026-06-30 16:10:10,878 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:10:10,878 [INFO] SEARCH COMPLETE
+2026-06-30 16:10:10,878 [INFO] Total results returned: 8
+2026-06-30 16:10:10,878 [INFO]   [sort_final_output] treatments (3 items):
+2026-06-30 16:10:10,878 [INFO]     • [36] LaseMD
+2026-06-30 16:10:10,878 [INFO]     • [14] FraxLase
+2026-06-30 16:10:10,878 [INFO]     • [6] Total Skin Solution
+2026-06-30 16:10:10,878 [INFO]   [sort_final_output] devices (5 items) sorted by modality/family:
+2026-06-30 16:10:10,878 [INFO]     • LaseMD | modality=laser | family=fractional
+2026-06-30 16:10:10,878 [INFO]     • LaseMD Ultra Pro | modality=laser | family=fractional CO2
+2026-06-30 16:10:10,878 [INFO]     • Lutronic LaseMD Ultra | modality=laser | family=fractional thulium
+2026-06-30 16:10:10,878 [INFO]     • Lutronic LaseMD Ultra® (1927 nm Thulium) | modality=laser | family=thulium
+2026-06-30 16:10:10,878 [INFO]     • LaseMD Ultra® (1927 nm Thulium) | modality=laser | family=Thulium, fractional non-ablative
+2026-06-30 16:10:10,878 [INFO]   [sort_final_output] Final group order: ['treatments', 'devices']
+2026-06-30 16:10:10,879 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x10be92510>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-b523e8e2-cbde-4fd6-8e0f-876d255cf076', 'content': None, 'json_data': {'max_tokens': 2000, 'messages': [{'role': 'user', 'content': 'Translate only the name, concern, and description fields from English to Swedish for treatments and devices.\nReturn ONLY a JSON array with the same length and order.\nKeep null values as null.\nDo not translate IDs, group names, modality, family, type, or score.\nKeep brand names and device names unchanged unless there is a natural Swedish treatment/device name.\n\nInput:\n[{"group": "treatments", "index": 0, "name": "LaseMD", "concern": null, "description": "LaseMD is a groundbreaking CDS program for advanced skin care that combines a sophisticated laser system (the LaseMD station) with its exclusive line of medical skin care products (the LaseMD ampoules"}, {"group": "treatments", "index": 1, "name": "FraxLase", "concern": null, "description": "En kombinationsbehandling med Fraxium & LaseMD Laser visar tydligt att det är en laserbehandling.\\n\\nDenna kombination ger otroligt fina resultat då man verkligen jobbar med alla hudlager i samma behand"}, {"group": "treatments", "index": 2, "name": "Total Skin Solution", "concern": null, "description": "Konceptet Total skin solution är en kombination mellan Genius och LaseMD.\\nBehandlingen startar med att göra GeniusRF.\\nGeniusRF är Fraktionerad radiofrekvens, det innebär kombinationen av microneedling"}, {"group": "devices", "index": 0, "name": "LaseMD", "concern": null, "description": null}, {"group": "devices", "index": 1, "name": "LaseMD Ultra Pro", "concern": null, "description": null}, {"group": "devices", "index": 2, "name": "Lutronic LaseMD Ultra", "concern": null, "description": null}, {"group": "devices", "index": 3, "name": "Lutronic LaseMD Ultra® (1927 nm Thulium)", "concern": null, "description": null}, {"group": "devices", "index": 4, "name": "LaseMD Ultra® (1927 nm Thulium)", "concern": null, "description": null}]\n\nRequired output item shape:\n{\n  "name": "translated name or null",\n  "concern": "translated concern or null",\n  "description": "translated description or null"\n}\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0}}
+2026-06-30 16:10:10,880 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:10:10,880 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:10:10,880 [DEBUG] send_request_headers.complete
+2026-06-30 16:10:10,880 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:10:10,881 [DEBUG] send_request_body.complete
+2026-06-30 16:10:10,881 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:10:13,817 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:40:13 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:40:11Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:40:13Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:40:11Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:40:11Z'), (b'request-id', b'req_011CcZJURM2oPNze8d1yyhaZ'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-9691fc5e87ac8f12f9d47440d638357d-fba3b02bdb747fd1-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'X-Robots-Tag', b'none'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'cf-cache-status', b'DYNAMIC'), (b'CF-RAY', b'a13c8d24ad5717ab-MAA')])
+2026-06-30 16:10:13,818 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:10:13,818 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:10:13,818 [DEBUG] receive_response_body.complete
+2026-06-30 16:10:13,818 [DEBUG] response_closed.started
+2026-06-30 16:10:13,818 [DEBUG] response_closed.complete
+2026-06-30 16:10:13,818 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:40:13 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:40:11Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:40:13Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:40:11Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:40:11Z', 'request-id': 'req_011CcZJURM2oPNze8d1yyhaZ', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-9691fc5e87ac8f12f9d47440d638357d-fba3b02bdb747fd1-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'x-robots-tag': 'none', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'cf-cache-status': 'DYNAMIC', 'cf-ray': 'a13c8d24ad5717ab-MAA'})
+2026-06-30 16:10:13,819 [DEBUG] request_id: req_011CcZJURM2oPNze8d1yyhaZ
+2026-06-30 16:17:58,999 [INFO] Connected to MySQL: localhost/zynq_code_db
+2026-06-30 16:17:58,999 [INFO] 
+============================================================
+2026-06-30 16:17:58,999 [INFO] SEARCH QUERY: 'pimple'
+2026-06-30 16:17:58,999 [INFO] Timestamp: 2026-06-30T16:17:58.999615
+2026-06-30 16:17:58,999 [INFO] ============================================================
+2026-06-30 16:17:58,999 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:17:58,999 [INFO] STEP 1 — CLASSIFY QUERY: 'pimple'
+2026-06-30 16:17:59,001 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x10c26a150>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-664f8200-c7b3-4fc9-a7f1-04f702333ecc', 'content': None, 'json_data': {'max_tokens': 400, 'messages': [{'role': 'user', 'content': 'You are a search query classifier for a medical aesthetics platform selling\ntreatments and devices. Users search in English or Swedish with 1-4 word queries.\n\nUser searched: "pimple"\n\nAnalyze and return ONLY this JSON. No explanation. No markdown.\n\n{\n  "normalized": "core concept in English, single word or short phrase",\n  "intent": "one of: treatment | device | concern | clinic | location | exclusion",\n  "concepts": ["2-5 related English concept words to search the DB for"],\n  "exclusions": ["terms to EXCLUDE from results — empty array if none"],\n  "is_negation": true or false,\n  "confidence": "high | medium | low"\n}\n\nClassification rules:\n- \'non-laser\', \'laser alternative\', \'without laser\', \'no botox\' → intent: exclusion, is_negation: true\n- Device brand names (Morpheus8, Fraxel, HydraFacial) → intent: device\n- Treatment names (Botox, filler, microneedling) → intent: treatment\n- Skin concerns (pigmentation, acne, wrinkles, dark spots) → intent: concern\n- City names → intent: location\n- Clinic names → intent: clinic\n\nExamples:\n- "non-laser"        → intent: exclusion, exclusions: ["laser"], concepts: [], is_negation: true\n- "pigment spots"    → intent: concern, concepts: ["pigmentation","melasma","dark spots","sun damage"]\n- "morpheus8"        → intent: device, concepts: ["morpheus8","RF microneedling","radiofrequency"]\n- "botox"            → intent: treatment, concepts: ["botox","neurotoxin","wrinkle injection","botulinum"]\n- "laser behandling" → intent: treatment, concepts: ["laser treatment","laser resurfacing","laser therapy"]\n- "håravfall"        → intent: concern, concepts: ["hair loss","hair regrowth","alopecia"]\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0.1}}
+2026-06-30 16:17:59,032 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:17:59,033 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=[(65535, 8, True), (6, 257, 60), (6, 258, 5)]
+2026-06-30 16:18:04,308 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10d3ca690>
+2026-06-30 16:18:04,308 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10d384f80> server_hostname='api.anthropic.com' timeout=5.0
+2026-06-30 16:18:04,390 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10d3caf90>
+2026-06-30 16:18:04,390 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:18:04,391 [DEBUG] send_request_headers.complete
+2026-06-30 16:18:04,391 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:18:04,391 [DEBUG] send_request_body.complete
+2026-06-30 16:18:04,391 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:18:06,811 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:48:06 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:48:05Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:48:05Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:48:04Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:48:05Z'), (b'request-id', b'req_011CcZK5Kot1rkwY9Ax5uCyc'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-389642de162b5cd69f6357a8d906eda6-c8619863988af0f8-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'cf-cache-status', b'DYNAMIC'), (b'set-cookie', b'_cfuvid=3rYwhyrMtRANKSBzuasjJmdOEQ3k6hrWzgB0NY0XhEg-1782816484.5086565-1.0.1.1-m905sbBbNYwtOs0Qi9QmGQx6Mg4ELQyckquBRFLJzP0; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'X-Robots-Tag', b'none'), (b'CF-RAY', b'a13c98b4289e7f40-MAA')])
+2026-06-30 16:18:06,812 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:18:06,812 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:18:06,813 [DEBUG] receive_response_body.complete
+2026-06-30 16:18:06,813 [DEBUG] response_closed.started
+2026-06-30 16:18:06,813 [DEBUG] response_closed.complete
+2026-06-30 16:18:06,813 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:48:06 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:48:05Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:48:05Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:48:04Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:48:05Z', 'request-id': 'req_011CcZK5Kot1rkwY9Ax5uCyc', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-389642de162b5cd69f6357a8d906eda6-c8619863988af0f8-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'cf-cache-status': 'DYNAMIC', 'set-cookie': '_cfuvid=3rYwhyrMtRANKSBzuasjJmdOEQ3k6hrWzgB0NY0XhEg-1782816484.5086565-1.0.1.1-m905sbBbNYwtOs0Qi9QmGQx6Mg4ELQyckquBRFLJzP0; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'x-robots-tag': 'none', 'cf-ray': 'a13c98b4289e7f40-MAA'})
+2026-06-30 16:18:06,814 [DEBUG] request_id: req_011CcZK5Kot1rkwY9Ax5uCyc
+2026-06-30 16:18:06,847 [INFO]   normalized  : acne
+2026-06-30 16:18:06,848 [INFO]   intent      : concern
+2026-06-30 16:18:06,848 [INFO]   concepts    : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:18:06,848 [INFO]   exclusions  : []
+2026-06-30 16:18:06,848 [INFO]   is_negation : False
+2026-06-30 16:18:06,848 [INFO]   confidence  : high
+2026-06-30 16:18:06,848 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:18:06,848 [INFO] STEP 2 — FETCH CANDIDATES FROM DB
+2026-06-30 16:18:06,848 [INFO]   Search terms  : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:18:06,848 [INFO]   Exclusions    : []
+2026-06-30 16:18:06,848 [INFO]   Intent        : concern
+2026-06-30 16:18:06,849 [DEBUG]   Executing UNION query with 5 search term(s) and 0 exclusion(s)
+2026-06-30 16:18:06,875 [INFO]   DB returned 30 raw candidates before score filtering
+2026-06-30 16:18:06,875 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:18:06,875 [INFO] STEP 3 — FILTER & SCORE CANDIDATES
+2026-06-30 16:18:06,875 [INFO]   Total before filter : 30
+2026-06-30 16:18:06,876 [INFO]   After zero-score filter : 30
+2026-06-30 16:18:06,876 [INFO]   [01] score=  17 | treatment  | IPL Acne Therapy
+2026-06-30 16:18:06,876 [INFO]   [02] score=  17 | treatment  | LED Acne Therapy
+2026-06-30 16:18:06,876 [INFO]   [03] score=  17 | device     | Acne 400–600
+2026-06-30 16:18:06,876 [INFO]   [04] score=  17 | device     | Celluma Pro (acne mode)
+2026-06-30 16:18:06,876 [INFO]   [05] score=  17 | device     | Celluma Acne
+2026-06-30 16:18:06,876 [INFO]   [06] score=  17 | device     | Harmony XL PRO (acne protocols)
+2026-06-30 16:18:06,876 [INFO]   [07] score=  17 | device     | LightStim Acne
+2026-06-30 16:18:06,876 [INFO]   [08] score=  17 | device     | LightStim for Acne
+2026-06-30 16:18:06,876 [INFO]   [09] score=  17 | device     | Lumenis M22 / Stellar M22 (acne filters)
+2026-06-30 16:18:06,876 [INFO]   [10] score=  17 | device     | Nordlys IPL (acne filters)
+2026-06-30 16:18:06,876 [INFO]   ... and 20 more (run with --debug to see all)
+2026-06-30 16:18:06,876 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:18:06,876 [INFO] STEP 4 — GROUP RESULTS by intent: 'concern'
+2026-06-30 16:18:06,876 [INFO]   Treatments in pool : 8
+2026-06-30 16:18:06,876 [INFO]   Devices in pool    : 22
+2026-06-30 16:18:06,877 [INFO]   Group 'treatments' — 5 result(s):
+2026-06-30 16:18:06,877 [INFO]     • [17] IPL Acne Therapy (light-based)
+2026-06-30 16:18:06,877 [INFO]     • [17] LED Acne Therapy (light-based)
+2026-06-30 16:18:06,877 [INFO]     • [7] LED Inflammation Reduction (light-based)
+2026-06-30 16:18:06,877 [INFO]     • [7] LED Blue Light (light-based)
+2026-06-30 16:18:06,877 [INFO]     • [7] Deep Cleansing Facial (mechanical)
+2026-06-30 16:18:06,877 [INFO]   Group 'devices' — 5 result(s):
+2026-06-30 16:18:06,877 [INFO]     • [17] Acne 400–600 (light-based)
+2026-06-30 16:18:06,878 [INFO]     • [17] Celluma Pro (acne mode) (light-based)
+2026-06-30 16:18:06,878 [INFO]     • [17] Celluma Acne (light-based)
+2026-06-30 16:18:06,878 [INFO]     • [17] Harmony XL PRO (acne protocols) (light-based)
+2026-06-30 16:18:06,878 [INFO]     • [17] LightStim Acne (light-based)
+2026-06-30 16:18:06,878 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:18:06,878 [INFO] SEARCH COMPLETE
+2026-06-30 16:18:06,878 [INFO] Total results returned: 10
+2026-06-30 16:18:06,878 [INFO]   [sort_final_output] treatments (5 items):
+2026-06-30 16:18:06,878 [INFO]     • [17] IPL Acne Therapy
+2026-06-30 16:18:06,878 [INFO]     • [17] LED Acne Therapy
+2026-06-30 16:18:06,878 [INFO]     • [7] LED Inflammation Reduction
+2026-06-30 16:18:06,878 [INFO]     • [7] LED Blue Light
+2026-06-30 16:18:06,878 [INFO]     • [7] Deep Cleansing Facial
+2026-06-30 16:18:06,878 [INFO]   [sort_final_output] devices (5 items) sorted by modality/family:
+2026-06-30 16:18:06,878 [INFO]     • Harmony XL PRO (acne protocols) | modality=light-based | family=IPL
+2026-06-30 16:18:06,878 [INFO]     • Celluma Pro (acne mode) | modality=light-based | family=LED
+2026-06-30 16:18:06,879 [INFO]     • Celluma Acne | modality=light-based | family=LED
+2026-06-30 16:18:06,879 [INFO]     • LightStim Acne | modality=light-based | family=LED light therapy
+2026-06-30 16:18:06,879 [INFO]     • Acne 400–600 | modality=light-based | family=LED/light therapy
+2026-06-30 16:18:06,879 [INFO]   [sort_final_output] Final group order: ['treatments', 'devices']
+2026-06-30 16:18:06,879 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x10c26a150>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-19026342-8dea-4348-aaa2-68524d836e84', 'content': None, 'json_data': {'max_tokens': 2000, 'messages': [{'role': 'user', 'content': 'Translate only the name, concern, and description fields from English to Swedish for treatments and devices.\nReturn ONLY a JSON array with the same length and order.\nKeep null values as null.\nDo not translate IDs, group names, modality, family, type, or score.\nKeep brand names and device names unchanged unless there is a natural Swedish treatment/device name.\n\nInput:\n[{"group": "treatments", "index": 0, "name": "IPL Acne Therapy", "concern": "Acne", "description": "Intense Pulsed Light using acne-specific filters to reduce acne-causing bacteria, inflammation and post-acne redness in suitable skin types."}, {"group": "treatments", "index": 1, "name": "LED Acne Therapy", "concern": "Acne", "description": "Blue and/or red LED light protocols targeting acne-causing bacteria and inflammation to improve breakout-prone skin."}, {"group": "treatments", "index": 2, "name": "LED Inflammation Reduction", "concern": "Inflammation", "description": "LED protocols (often red + blue + NIR) aimed at reducing inflammation, redness and irritation in acne and reactive skin."}, {"group": "treatments", "index": 3, "name": "LED Blue Light", "concern": "Acne, Bacterial infection", "description": "Blue LED light therapy targeting acne-causing bacteria to reduce inflammatory breakouts and support clearer skin."}, {"group": "treatments", "index": 4, "name": "Deep Cleansing Facial", "concern": "Acne, Congestion", "description": "Manual and enzymatic deep-cleansing facial designed to remove impurities, decongest pores and rebalance the skin."}, {"group": "devices", "index": 0, "name": "Harmony XL PRO (acne protocols)", "concern": null, "description": null}, {"group": "devices", "index": 1, "name": "Celluma Pro (acne mode)", "concern": null, "description": null}, {"group": "devices", "index": 2, "name": "Celluma Acne", "concern": null, "description": null}, {"group": "devices", "index": 3, "name": "LightStim Acne", "concern": null, "description": null}, {"group": "devices", "index": 4, "name": "Acne 400–600", "concern": null, "description": null}]\n\nRequired output item shape:\n{\n  "name": "translated name or null",\n  "concern": "translated concern or null",\n  "description": "translated description or null"\n}\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0}}
+2026-06-30 16:18:06,880 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:18:06,881 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:18:06,881 [DEBUG] send_request_headers.complete
+2026-06-30 16:18:06,881 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:18:06,881 [DEBUG] send_request_body.complete
+2026-06-30 16:18:06,881 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:18:11,130 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:48:11 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:48:07Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'999000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:48:11Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:48:07Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'5999000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:48:07Z'), (b'request-id', b'req_011CcZK5WkT4mBZnGdx6TCZk'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-c08bd1bcd4591e310fee5286480e44c3-2a6db2bf1517bf64-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'cf-cache-status', b'DYNAMIC'), (b'X-Robots-Tag', b'none'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'CF-RAY', b'a13c98c42cce7f40-MAA')])
+2026-06-30 16:18:11,131 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:18:11,131 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:18:11,131 [DEBUG] receive_response_body.complete
+2026-06-30 16:18:11,131 [DEBUG] response_closed.started
+2026-06-30 16:18:11,131 [DEBUG] response_closed.complete
+2026-06-30 16:18:11,131 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:48:11 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:48:07Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '999000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:48:11Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:48:07Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '5999000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:48:07Z', 'request-id': 'req_011CcZK5WkT4mBZnGdx6TCZk', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-c08bd1bcd4591e310fee5286480e44c3-2a6db2bf1517bf64-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'cf-cache-status': 'DYNAMIC', 'x-robots-tag': 'none', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'cf-ray': 'a13c98c42cce7f40-MAA'})
+2026-06-30 16:18:11,132 [DEBUG] request_id: req_011CcZK5WkT4mBZnGdx6TCZk
+2026-06-30 16:18:45,944 [INFO] Connected to MySQL: localhost/zynq_code_db
+2026-06-30 16:18:45,945 [INFO] 
+============================================================
+2026-06-30 16:18:45,945 [INFO] SEARCH QUERY: 'pimple'
+2026-06-30 16:18:45,945 [INFO] Timestamp: 2026-06-30T16:18:45.945533
+2026-06-30 16:18:45,945 [INFO] ============================================================
+2026-06-30 16:18:45,945 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:18:45,945 [INFO] STEP 1 — CLASSIFY QUERY: 'pimple'
+2026-06-30 16:18:45,946 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x10c26a150>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-f3d23699-6034-477d-844f-4918b54cde53', 'content': None, 'json_data': {'max_tokens': 400, 'messages': [{'role': 'user', 'content': 'You are a search query classifier for a medical aesthetics platform selling\ntreatments and devices. Users search in English or Swedish with 1-4 word queries.\n\nUser searched: "pimple"\n\nAnalyze and return ONLY this JSON. No explanation. No markdown.\n\n{\n  "normalized": "core concept in English, single word or short phrase",\n  "intent": "one of: treatment | device | concern | clinic | location | exclusion",\n  "concepts": ["2-5 related English concept words to search the DB for"],\n  "exclusions": ["terms to EXCLUDE from results — empty array if none"],\n  "is_negation": true or false,\n  "confidence": "high | medium | low"\n}\n\nClassification rules:\n- \'non-laser\', \'laser alternative\', \'without laser\', \'no botox\' → intent: exclusion, is_negation: true\n- Device brand names (Morpheus8, Fraxel, HydraFacial) → intent: device\n- Treatment names (Botox, filler, microneedling) → intent: treatment\n- Skin concerns (pigmentation, acne, wrinkles, dark spots) → intent: concern\n- City names → intent: location\n- Clinic names → intent: clinic\n\nExamples:\n- "non-laser"        → intent: exclusion, exclusions: ["laser"], concepts: [], is_negation: true\n- "pigment spots"    → intent: concern, concepts: ["pigmentation","melasma","dark spots","sun damage"]\n- "morpheus8"        → intent: device, concepts: ["morpheus8","RF microneedling","radiofrequency"]\n- "botox"            → intent: treatment, concepts: ["botox","neurotoxin","wrinkle injection","botulinum"]\n- "laser behandling" → intent: treatment, concepts: ["laser treatment","laser resurfacing","laser therapy"]\n- "håravfall"        → intent: concern, concepts: ["hair loss","hair regrowth","alopecia"]\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0.1}}
+2026-06-30 16:18:45,946 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:18:45,947 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=[(65535, 8, True), (6, 257, 60), (6, 258, 5)]
+2026-06-30 16:18:45,997 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10d440cd0>
+2026-06-30 16:18:45,997 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10d385250> server_hostname='api.anthropic.com' timeout=5.0
+2026-06-30 16:18:46,054 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10d440c90>
+2026-06-30 16:18:46,054 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:18:46,054 [DEBUG] send_request_headers.complete
+2026-06-30 16:18:46,055 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:18:46,055 [DEBUG] send_request_body.complete
+2026-06-30 16:18:46,055 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:18:47,502 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:48:47 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:48:46Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:48:47Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:48:46Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:48:46Z'), (b'request-id', b'req_011CcZK8PtnBXaKgjZSXdFc9'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-d469840db85b36cf873c90a128f195f6-1d53670fe6440118-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'set-cookie', b'_cfuvid=TQoupGGhqV1BuB7ZxkTJbBvTLDKp4r.3EGJLaqk80ts-1782816526.1534896-1.0.1.1-rBcU_NBnK0YCo01r_ay.W3pB0lDNpba23tJbIDZfYxA; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com'), (b'X-Robots-Tag', b'none'), (b'cf-cache-status', b'DYNAMIC'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'CF-RAY', b'a13c99b87dcf8c14-MAA')])
+2026-06-30 16:18:47,503 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:18:47,503 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:18:47,503 [DEBUG] receive_response_body.complete
+2026-06-30 16:18:47,503 [DEBUG] response_closed.started
+2026-06-30 16:18:47,504 [DEBUG] response_closed.complete
+2026-06-30 16:18:47,504 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:48:47 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:48:46Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:48:47Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:48:46Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:48:46Z', 'request-id': 'req_011CcZK8PtnBXaKgjZSXdFc9', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-d469840db85b36cf873c90a128f195f6-1d53670fe6440118-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'set-cookie': '_cfuvid=TQoupGGhqV1BuB7ZxkTJbBvTLDKp4r.3EGJLaqk80ts-1782816526.1534896-1.0.1.1-rBcU_NBnK0YCo01r_ay.W3pB0lDNpba23tJbIDZfYxA; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com', 'x-robots-tag': 'none', 'cf-cache-status': 'DYNAMIC', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'cf-ray': 'a13c99b87dcf8c14-MAA'})
+2026-06-30 16:18:47,504 [DEBUG] request_id: req_011CcZK8PtnBXaKgjZSXdFc9
+2026-06-30 16:18:47,504 [INFO]   normalized  : acne
+2026-06-30 16:18:47,504 [INFO]   intent      : concern
+2026-06-30 16:18:47,505 [INFO]   concepts    : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:18:47,505 [INFO]   exclusions  : []
+2026-06-30 16:18:47,505 [INFO]   is_negation : False
+2026-06-30 16:18:47,505 [INFO]   confidence  : high
+2026-06-30 16:18:47,505 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:18:47,505 [INFO] STEP 2 — FETCH CANDIDATES FROM DB
+2026-06-30 16:18:47,505 [INFO]   Search terms  : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:18:47,505 [INFO]   Exclusions    : []
+2026-06-30 16:18:47,505 [INFO]   Intent        : concern
+2026-06-30 16:18:47,505 [DEBUG]   Executing UNION query with 5 search term(s) and 0 exclusion(s)
+2026-06-30 16:18:47,526 [INFO]   DB returned 30 raw candidates before score filtering
+2026-06-30 16:18:47,526 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:18:47,526 [INFO] STEP 3 — FILTER & SCORE CANDIDATES
+2026-06-30 16:18:47,526 [INFO]   Total before filter : 30
+2026-06-30 16:18:47,526 [INFO]   After zero-score filter : 30
+2026-06-30 16:18:47,526 [INFO]   [01] score=  17 | treatment  | IPL Acne Therapy
+2026-06-30 16:18:47,526 [INFO]   [02] score=  17 | treatment  | LED Acne Therapy
+2026-06-30 16:18:47,526 [INFO]   [03] score=  17 | device     | Acne 400–600
+2026-06-30 16:18:47,526 [INFO]   [04] score=  17 | device     | Celluma Pro (acne mode)
+2026-06-30 16:18:47,526 [INFO]   [05] score=  17 | device     | Celluma Acne
+2026-06-30 16:18:47,526 [INFO]   [06] score=  17 | device     | Harmony XL PRO (acne protocols)
+2026-06-30 16:18:47,526 [INFO]   [07] score=  17 | device     | LightStim Acne
+2026-06-30 16:18:47,526 [INFO]   [08] score=  17 | device     | LightStim for Acne
+2026-06-30 16:18:47,526 [INFO]   [09] score=  17 | device     | Lumenis M22 / Stellar M22 (acne filters)
+2026-06-30 16:18:47,527 [INFO]   [10] score=  17 | device     | Nordlys IPL (acne filters)
+2026-06-30 16:18:47,527 [INFO]   ... and 20 more (run with --debug to see all)
+2026-06-30 16:18:47,527 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:18:47,527 [INFO] STEP 4 — GROUP RESULTS by intent: 'concern'
+2026-06-30 16:18:47,527 [INFO]   Treatments in pool : 8
+2026-06-30 16:18:47,527 [INFO]   Devices in pool    : 22
+2026-06-30 16:18:47,527 [INFO]   Group 'treatments' — 5 result(s):
+2026-06-30 16:18:47,527 [INFO]     • [17] IPL Acne Therapy (light-based)
+2026-06-30 16:18:47,527 [INFO]     • [17] LED Acne Therapy (light-based)
+2026-06-30 16:18:47,527 [INFO]     • [7] LED Inflammation Reduction (light-based)
+2026-06-30 16:18:47,527 [INFO]     • [7] LED Blue Light (light-based)
+2026-06-30 16:18:47,527 [INFO]     • [7] Deep Cleansing Facial (mechanical)
+2026-06-30 16:18:47,527 [INFO]   Group 'devices' — 5 result(s):
+2026-06-30 16:18:47,527 [INFO]     • [17] Acne 400–600 (light-based)
+2026-06-30 16:18:47,527 [INFO]     • [17] Celluma Pro (acne mode) (light-based)
+2026-06-30 16:18:47,527 [INFO]     • [17] Celluma Acne (light-based)
+2026-06-30 16:18:47,527 [INFO]     • [17] Harmony XL PRO (acne protocols) (light-based)
+2026-06-30 16:18:47,527 [INFO]     • [17] LightStim Acne (light-based)
+2026-06-30 16:18:47,527 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:18:47,527 [INFO] SEARCH COMPLETE
+2026-06-30 16:18:47,528 [INFO] Total results returned: 10
+2026-06-30 16:18:47,528 [INFO]   [sort_final_output] treatments (5 items):
+2026-06-30 16:18:47,528 [INFO]     • [17] IPL Acne Therapy
+2026-06-30 16:18:47,528 [INFO]     • [17] LED Acne Therapy
+2026-06-30 16:18:47,528 [INFO]     • [7] LED Inflammation Reduction
+2026-06-30 16:18:47,528 [INFO]     • [7] LED Blue Light
+2026-06-30 16:18:47,528 [INFO]     • [7] Deep Cleansing Facial
+2026-06-30 16:18:47,528 [INFO]   [sort_final_output] devices (5 items) sorted by modality/family:
+2026-06-30 16:18:47,528 [INFO]     • Harmony XL PRO (acne protocols) | modality=light-based | family=IPL
+2026-06-30 16:18:47,528 [INFO]     • Celluma Pro (acne mode) | modality=light-based | family=LED
+2026-06-30 16:18:47,528 [INFO]     • Celluma Acne | modality=light-based | family=LED
+2026-06-30 16:18:47,528 [INFO]     • LightStim Acne | modality=light-based | family=LED light therapy
+2026-06-30 16:18:47,528 [INFO]     • Acne 400–600 | modality=light-based | family=LED/light therapy
+2026-06-30 16:18:47,528 [INFO]   [sort_final_output] Final group order: ['treatments', 'devices']
+2026-06-30 16:19:07,765 [INFO] Connected to MySQL: localhost/zynq_code_db
+2026-06-30 16:19:07,766 [INFO] 
+============================================================
+2026-06-30 16:19:07,766 [INFO] SEARCH QUERY: 'pimple'
+2026-06-30 16:19:07,766 [INFO] Timestamp: 2026-06-30T16:19:07.766266
+2026-06-30 16:19:07,766 [INFO] ============================================================
+2026-06-30 16:19:07,766 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:19:07,766 [INFO] STEP 1 — CLASSIFY QUERY: 'pimple'
+2026-06-30 16:19:07,766 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x10c26a150>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-326d7456-47ee-41d3-b1f5-1b8e44501e3b', 'content': None, 'json_data': {'max_tokens': 400, 'messages': [{'role': 'user', 'content': 'You are a search query classifier for a medical aesthetics platform selling\ntreatments and devices. Users search in English or Swedish with 1-4 word queries.\n\nUser searched: "pimple"\n\nAnalyze and return ONLY this JSON. No explanation. No markdown.\n\n{\n  "normalized": "core concept in English, single word or short phrase",\n  "intent": "one of: treatment | device | concern | clinic | location | exclusion",\n  "concepts": ["2-5 related English concept words to search the DB for"],\n  "exclusions": ["terms to EXCLUDE from results — empty array if none"],\n  "is_negation": true or false,\n  "confidence": "high | medium | low"\n}\n\nClassification rules:\n- \'non-laser\', \'laser alternative\', \'without laser\', \'no botox\' → intent: exclusion, is_negation: true\n- Device brand names (Morpheus8, Fraxel, HydraFacial) → intent: device\n- Treatment names (Botox, filler, microneedling) → intent: treatment\n- Skin concerns (pigmentation, acne, wrinkles, dark spots) → intent: concern\n- City names → intent: location\n- Clinic names → intent: clinic\n\nExamples:\n- "non-laser"        → intent: exclusion, exclusions: ["laser"], concepts: [], is_negation: true\n- "pigment spots"    → intent: concern, concepts: ["pigmentation","melasma","dark spots","sun damage"]\n- "morpheus8"        → intent: device, concepts: ["morpheus8","RF microneedling","radiofrequency"]\n- "botox"            → intent: treatment, concepts: ["botox","neurotoxin","wrinkle injection","botulinum"]\n- "laser behandling" → intent: treatment, concepts: ["laser treatment","laser resurfacing","laser therapy"]\n- "håravfall"        → intent: concern, concepts: ["hair loss","hair regrowth","alopecia"]\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0.1}}
+2026-06-30 16:19:07,767 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:19:07,767 [DEBUG] connect_tcp.started host='api.anthropic.com' port=443 local_address=None timeout=5.0 socket_options=[(65535, 8, True), (6, 257, 60), (6, 258, 5)]
+2026-06-30 16:19:07,837 [DEBUG] connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10d548b50>
+2026-06-30 16:19:07,837 [DEBUG] start_tls.started ssl_context=<ssl.SSLContext object at 0x10d3879b0> server_hostname='api.anthropic.com' timeout=5.0
+2026-06-30 16:19:07,911 [DEBUG] start_tls.complete return_value=<httpcore._backends.sync.SyncStream object at 0x10d548b90>
+2026-06-30 16:19:07,911 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:19:07,911 [DEBUG] send_request_headers.complete
+2026-06-30 16:19:07,911 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:19:07,912 [DEBUG] send_request_body.complete
+2026-06-30 16:19:07,912 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:19:09,164 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:49:09 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:49:08Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'1000000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:49:09Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:49:08Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'6000000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:49:08Z'), (b'request-id', b'req_011CcZKA1LmPjV5tsnbP5bcj'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-1be56e163ea0e58ae120cb502b648e43-11ab105577f50d5d-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'set-cookie', b'_cfuvid=hb2aNlFwA9tJhCgjCtmJiCKW1eQRtTkdFnmwLd2RD_4-1782816548.0300798-1.0.1.1-QC8DeujHCzIIppk6pAS8E06I6DR3awhaH2Y6mVUSnKs; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com'), (b'X-Robots-Tag', b'none'), (b'cf-cache-status', b'DYNAMIC'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'CF-RAY', b'a13c9a412fefc736-MAA')])
+2026-06-30 16:19:09,165 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:19:09,165 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:19:09,165 [DEBUG] receive_response_body.complete
+2026-06-30 16:19:09,165 [DEBUG] response_closed.started
+2026-06-30 16:19:09,166 [DEBUG] response_closed.complete
+2026-06-30 16:19:09,166 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:49:09 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:49:08Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '1000000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:49:09Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:49:08Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '6000000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:49:08Z', 'request-id': 'req_011CcZKA1LmPjV5tsnbP5bcj', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-1be56e163ea0e58ae120cb502b648e43-11ab105577f50d5d-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'set-cookie': '_cfuvid=hb2aNlFwA9tJhCgjCtmJiCKW1eQRtTkdFnmwLd2RD_4-1782816548.0300798-1.0.1.1-QC8DeujHCzIIppk6pAS8E06I6DR3awhaH2Y6mVUSnKs; HttpOnly; SameSite=None; Secure; Path=/; Domain=api.anthropic.com', 'x-robots-tag': 'none', 'cf-cache-status': 'DYNAMIC', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'cf-ray': 'a13c9a412fefc736-MAA'})
+2026-06-30 16:19:09,166 [DEBUG] request_id: req_011CcZKA1LmPjV5tsnbP5bcj
+2026-06-30 16:19:09,167 [INFO]   normalized  : acne
+2026-06-30 16:19:09,167 [INFO]   intent      : concern
+2026-06-30 16:19:09,167 [INFO]   concepts    : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:19:09,167 [INFO]   exclusions  : []
+2026-06-30 16:19:09,167 [INFO]   is_negation : False
+2026-06-30 16:19:09,167 [INFO]   confidence  : high
+2026-06-30 16:19:09,167 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:19:09,167 [INFO] STEP 2 — FETCH CANDIDATES FROM DB
+2026-06-30 16:19:09,167 [INFO]   Search terms  : ['acne', 'pimples', 'breakouts', 'blemishes', 'acne treatment']
+2026-06-30 16:19:09,167 [INFO]   Exclusions    : []
+2026-06-30 16:19:09,168 [INFO]   Intent        : concern
+2026-06-30 16:19:09,168 [DEBUG]   Executing UNION query with 5 search term(s) and 0 exclusion(s)
+2026-06-30 16:19:09,188 [INFO]   DB returned 30 raw candidates before score filtering
+2026-06-30 16:19:09,188 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:19:09,188 [INFO] STEP 3 — FILTER & SCORE CANDIDATES
+2026-06-30 16:19:09,188 [INFO]   Total before filter : 30
+2026-06-30 16:19:09,188 [INFO]   After zero-score filter : 30
+2026-06-30 16:19:09,188 [INFO]   [01] score=  17 | treatment  | IPL Acne Therapy
+2026-06-30 16:19:09,188 [INFO]   [02] score=  17 | treatment  | LED Acne Therapy
+2026-06-30 16:19:09,188 [INFO]   [03] score=  17 | device     | Acne 400–600
+2026-06-30 16:19:09,188 [INFO]   [04] score=  17 | device     | Celluma Pro (acne mode)
+2026-06-30 16:19:09,188 [INFO]   [05] score=  17 | device     | Celluma Acne
+2026-06-30 16:19:09,188 [INFO]   [06] score=  17 | device     | Harmony XL PRO (acne protocols)
+2026-06-30 16:19:09,189 [INFO]   [07] score=  17 | device     | LightStim Acne
+2026-06-30 16:19:09,189 [INFO]   [08] score=  17 | device     | LightStim for Acne
+2026-06-30 16:19:09,189 [INFO]   [09] score=  17 | device     | Lumenis M22 / Stellar M22 (acne filters)
+2026-06-30 16:19:09,189 [INFO]   [10] score=  17 | device     | Nordlys IPL (acne filters)
+2026-06-30 16:19:09,189 [INFO]   ... and 20 more (run with --debug to see all)
+2026-06-30 16:19:09,189 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:19:09,189 [INFO] STEP 4 — GROUP RESULTS by intent: 'concern'
+2026-06-30 16:19:09,189 [INFO]   Treatments in pool : 8
+2026-06-30 16:19:09,189 [INFO]   Devices in pool    : 22
+2026-06-30 16:19:09,189 [INFO]   Group 'treatments' — 5 result(s):
+2026-06-30 16:19:09,189 [INFO]     • [17] IPL Acne Therapy (light-based)
+2026-06-30 16:19:09,189 [INFO]     • [17] LED Acne Therapy (light-based)
+2026-06-30 16:19:09,189 [INFO]     • [7] LED Inflammation Reduction (light-based)
+2026-06-30 16:19:09,189 [INFO]     • [7] LED Blue Light (light-based)
+2026-06-30 16:19:09,189 [INFO]     • [7] Deep Cleansing Facial (mechanical)
+2026-06-30 16:19:09,189 [INFO]   Group 'devices' — 5 result(s):
+2026-06-30 16:19:09,189 [INFO]     • [17] Acne 400–600 (light-based)
+2026-06-30 16:19:09,190 [INFO]     • [17] Celluma Pro (acne mode) (light-based)
+2026-06-30 16:19:09,190 [INFO]     • [17] Celluma Acne (light-based)
+2026-06-30 16:19:09,190 [INFO]     • [17] Harmony XL PRO (acne protocols) (light-based)
+2026-06-30 16:19:09,190 [INFO]     • [17] LightStim Acne (light-based)
+2026-06-30 16:19:09,190 [INFO] ──────────────────────────────────────────────────
+2026-06-30 16:19:09,190 [INFO] SEARCH COMPLETE
+2026-06-30 16:19:09,190 [INFO] Total results returned: 10
+2026-06-30 16:19:09,190 [INFO]   [sort_final_output] treatments (5 items):
+2026-06-30 16:19:09,190 [INFO]     • [17] IPL Acne Therapy
+2026-06-30 16:19:09,190 [INFO]     • [17] LED Acne Therapy
+2026-06-30 16:19:09,190 [INFO]     • [7] LED Inflammation Reduction
+2026-06-30 16:19:09,190 [INFO]     • [7] LED Blue Light
+2026-06-30 16:19:09,190 [INFO]     • [7] Deep Cleansing Facial
+2026-06-30 16:19:09,190 [INFO]   [sort_final_output] devices (5 items) sorted by modality/family:
+2026-06-30 16:19:09,190 [INFO]     • Harmony XL PRO (acne protocols) | modality=light-based | family=IPL
+2026-06-30 16:19:09,190 [INFO]     • Celluma Pro (acne mode) | modality=light-based | family=LED
+2026-06-30 16:19:09,190 [INFO]     • Celluma Acne | modality=light-based | family=LED
+2026-06-30 16:19:09,191 [INFO]     • LightStim Acne | modality=light-based | family=LED light therapy
+2026-06-30 16:19:09,191 [INFO]     • Acne 400–600 | modality=light-based | family=LED/light therapy
+2026-06-30 16:19:09,191 [INFO]   [sort_final_output] Final group order: ['treatments', 'devices']
+2026-06-30 16:19:09,191 [DEBUG] Request options: {'method': 'post', 'url': '/v1/messages', 'headers': {'anthropic-user-profile-id': <anthropic.Omit object at 0x10c26a150>}, 'timeout': Timeout(connect=5.0, read=600, write=600, pool=600), 'files': None, 'idempotency_key': 'stainless-python-retry-b7369af6-38f7-4532-8e20-44cce2a77455', 'content': None, 'json_data': {'max_tokens': 2000, 'messages': [{'role': 'user', 'content': 'Translate only the name, concern, and description fields from English to Swedish for treatments and devices.\nReturn ONLY a JSON array with the same length and order.\nKeep null values as null.\nDo not translate IDs, group names, modality, family, type, or score.\nKeep brand names and device names unchanged unless there is a natural Swedish treatment/device name.\n\nInput:\n[{"group": "treatments", "index": 0, "name": "IPL Acne Therapy", "concern": "Acne", "description": "Intense Pulsed Light using acne-specific filters to reduce acne-causing bacteria, inflammation and post-acne redness in suitable skin types."}, {"group": "treatments", "index": 1, "name": "LED Acne Therapy", "concern": "Acne", "description": "Blue and/or red LED light protocols targeting acne-causing bacteria and inflammation to improve breakout-prone skin."}, {"group": "treatments", "index": 2, "name": "LED Inflammation Reduction", "concern": "Inflammation", "description": "LED protocols (often red + blue + NIR) aimed at reducing inflammation, redness and irritation in acne and reactive skin."}, {"group": "treatments", "index": 3, "name": "LED Blue Light", "concern": "Acne, Bacterial infection", "description": "Blue LED light therapy targeting acne-causing bacteria to reduce inflammatory breakouts and support clearer skin."}, {"group": "treatments", "index": 4, "name": "Deep Cleansing Facial", "concern": "Acne, Congestion", "description": "Manual and enzymatic deep-cleansing facial designed to remove impurities, decongest pores and rebalance the skin."}, {"group": "devices", "index": 0, "name": "Harmony XL PRO (acne protocols)", "concern": null, "description": null}, {"group": "devices", "index": 1, "name": "Celluma Pro (acne mode)", "concern": null, "description": null}, {"group": "devices", "index": 2, "name": "Celluma Acne", "concern": null, "description": null}, {"group": "devices", "index": 3, "name": "LightStim Acne", "concern": null, "description": null}, {"group": "devices", "index": 4, "name": "Acne 400–600", "concern": null, "description": null}]\n\nRequired output item shape:\n{\n  "name": "translated name or null",\n  "concern": "translated concern or null",\n  "description": "translated description or null"\n}\n'}], 'model': 'claude-haiku-4-5-20251001', 'temperature': 0}}
+2026-06-30 16:19:09,192 [DEBUG] Sending HTTP Request: POST https://api.anthropic.com/v1/messages
+2026-06-30 16:19:09,192 [DEBUG] send_request_headers.started request=<Request [b'POST']>
+2026-06-30 16:19:09,193 [DEBUG] send_request_headers.complete
+2026-06-30 16:19:09,193 [DEBUG] send_request_body.started request=<Request [b'POST']>
+2026-06-30 16:19:09,193 [DEBUG] send_request_body.complete
+2026-06-30 16:19:09,193 [DEBUG] receive_response_headers.started request=<Request [b'POST']>
+2026-06-30 16:19:13,699 [DEBUG] receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 30 Jun 2026 10:49:13 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'anthropic-ratelimit-input-tokens-limit', b'5000000'), (b'anthropic-ratelimit-input-tokens-remaining', b'5000000'), (b'anthropic-ratelimit-input-tokens-reset', b'2026-06-30T10:49:10Z'), (b'anthropic-ratelimit-output-tokens-limit', b'1000000'), (b'anthropic-ratelimit-output-tokens-remaining', b'999000'), (b'anthropic-ratelimit-output-tokens-reset', b'2026-06-30T10:49:13Z'), (b'anthropic-ratelimit-requests-limit', b'5000'), (b'anthropic-ratelimit-requests-remaining', b'4999'), (b'anthropic-ratelimit-requests-reset', b'2026-06-30T10:49:09Z'), (b'anthropic-ratelimit-tokens-limit', b'6000000'), (b'anthropic-ratelimit-tokens-remaining', b'5999000'), (b'anthropic-ratelimit-tokens-reset', b'2026-06-30T10:49:10Z'), (b'request-id', b'req_011CcZKA6ttT9jwZF3YUwCZ9'), (b'strict-transport-security', b'max-age=31536000; includeSubDomains; preload'), (b'anthropic-organization-id', b'6cfda192-2639-48e8-a3cf-9182be7ee978'), (b'traceresponse', b'00-d26512c123900a18e10966d7eb0375a1-ca1c6fe710d256cb-01'), (b'Server', b'cloudflare'), (b'Content-Encoding', b'gzip'), (b'vary', b'Accept-Encoding'), (b'X-Robots-Tag', b'none'), (b'Content-Security-Policy', b"default-src 'none'; frame-ancestors 'none'"), (b'cf-cache-status', b'DYNAMIC'), (b'CF-RAY', b'a13c9a492cf9c736-MAA')])
+2026-06-30 16:19:13,699 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 16:19:13,700 [DEBUG] close.started
+2026-06-30 16:19:13,700 [DEBUG] close.complete
+2026-06-30 16:19:13,701 [DEBUG] receive_response_body.started request=<Request [b'POST']>
+2026-06-30 16:19:13,702 [DEBUG] receive_response_body.complete
+2026-06-30 16:19:13,702 [DEBUG] response_closed.started
+2026-06-30 16:19:13,702 [DEBUG] response_closed.complete
+2026-06-30 16:19:13,702 [DEBUG] HTTP Response: POST https://api.anthropic.com/v1/messages "200 OK" Headers({'date': 'Tue, 30 Jun 2026 10:49:13 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'anthropic-ratelimit-input-tokens-limit': '5000000', 'anthropic-ratelimit-input-tokens-remaining': '5000000', 'anthropic-ratelimit-input-tokens-reset': '2026-06-30T10:49:10Z', 'anthropic-ratelimit-output-tokens-limit': '1000000', 'anthropic-ratelimit-output-tokens-remaining': '999000', 'anthropic-ratelimit-output-tokens-reset': '2026-06-30T10:49:13Z', 'anthropic-ratelimit-requests-limit': '5000', 'anthropic-ratelimit-requests-remaining': '4999', 'anthropic-ratelimit-requests-reset': '2026-06-30T10:49:09Z', 'anthropic-ratelimit-tokens-limit': '6000000', 'anthropic-ratelimit-tokens-remaining': '5999000', 'anthropic-ratelimit-tokens-reset': '2026-06-30T10:49:10Z', 'request-id': 'req_011CcZKA6ttT9jwZF3YUwCZ9', 'strict-transport-security': 'max-age=31536000; includeSubDomains; preload', 'anthropic-organization-id': '6cfda192-2639-48e8-a3cf-9182be7ee978', 'traceresponse': '00-d26512c123900a18e10966d7eb0375a1-ca1c6fe710d256cb-01', 'server': 'cloudflare', 'content-encoding': 'gzip', 'vary': 'Accept-Encoding', 'x-robots-tag': 'none', 'content-security-policy': "default-src 'none'; frame-ancestors 'none'", 'cf-cache-status': 'DYNAMIC', 'cf-ray': 'a13c9a492cf9c736-MAA'})
+2026-06-30 16:19:13,702 [DEBUG] request_id: req_011CcZKA6ttT9jwZF3YUwCZ9

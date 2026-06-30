@@ -1,3 +1,5 @@
+from typing import Literal
+
 from fastapi import APIRouter, HTTPException, Query, status
 from app.schemas.search import SearchResponse
 from search import search_main
@@ -9,13 +11,14 @@ router = APIRouter()
 def run_search(
     query: str = Query(..., min_length=1, description="The search query text"),
     debug: bool = Query(False, description="Whether to include extra logs for search diagnostics"),
-    limit: int = Query(5, ge=1, le=50, description="Max results per category")
+    limit: int = Query(5, ge=1, le=50, description="Max results per category"),
+    language: Literal["en", "sv"] = Query("en", description="Response language for name, concern, and description")
 ):
     """
     Execute semantic and classification-based search against treatments and devices.
     """
     try:
-        results = search_main(query=query, debug=debug, limit=limit)
+        results = search_main(query=query, debug=debug, limit=limit, language=language)
         return results
     except RuntimeError as e:
         raise HTTPException(

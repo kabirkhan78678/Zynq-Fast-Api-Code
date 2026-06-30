@@ -14,7 +14,6 @@ class SearchInterpretedAs(BaseModel):
 class SearchResultItem(BaseModel):
     id: Optional[str] = Field(None, description="The UUID of the treatment or device entity")
     name: Optional[str] = Field(None, description="The English name of the entity")
-    swedish_name: Optional[str] = Field(None, description="The Swedish name of the entity")
     type: Optional[str] = Field(None, description="The type of entity ('treatment' or 'device')")
     modality: Optional[str] = Field(None, description="Treatment/device modality description")
     family: Optional[str] = Field(None, description="Functional family of the entity")
